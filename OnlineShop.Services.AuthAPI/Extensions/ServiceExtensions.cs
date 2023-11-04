@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Services.AuthAPI.AppData;
+using OnlineShop.Services.AuthAPI.Mapper;
 using OnlineShop.Services.AuthAPI.MiddlewareHandlers;
 using OnlineShop.Services.AuthAPI.Models.Data;
+using OnlineShop.Services.AuthAPI.Repositories.Implementations;
+using OnlineShop.Services.AuthAPI.Repositories.Interfaces;
 using OnlineShop.Services.AuthAPI.Services.Implementations;
 using OnlineShop.Services.AuthAPI.Services.Interfaces;
 
@@ -34,6 +37,16 @@ namespace OnlineShop.Services.AuthAPI.Extensions
             services.AddScoped<IAuthService, AuthService>();
         }
 
+        public static void ConfigureRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IUserRepository, UserRepository>();
+        }
+
+        public static void ConfigureAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(MappingProfile));
+        }
+
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<GlobalErrorHandler>();
@@ -43,6 +56,7 @@ namespace OnlineShop.Services.AuthAPI.Extensions
         {
             using var scope = services.CreateScope();
             var _db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
             if (_db.Database.GetPendingMigrations().Any())
             {
                 _db.Database.Migrate();

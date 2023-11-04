@@ -6,7 +6,8 @@ builder.Services.ConfigureMsSqlServerContext(builder.Configuration);
 builder.Services.ConfigureJwtOptions(builder.Configuration);
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureBusinessServices();
-
+builder.Services.ConfigureRepositories();
+builder.Services.ConfigureAutoMapper();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
