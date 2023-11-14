@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Services.AuthAPI", "OnlineShop.Services.AuthAPI\OnlineShop.Services.AuthAPI.csproj", "{7FECDA66-0F09-4D1C-85B6-1B213ED27395}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.Api", "OnlineShop.Services.AuthServices.Api\OnlineShop.Services.AuthService.Api.csproj", "{7FECDA66-0F09-4D1C-85B6-1B213ED27395}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D6960493-CA30-49E5-81A5-FBE369F6F53B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthSerivce", "AuthSerivce", "{C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.BusinessLayer", "OnlineShop.Services.AuthService.BusinessLayer\OnlineShop.Services.AuthService.BusinessLayer.csproj", "{9108F707-FBEB-452A-A414-7A3AFD4704A8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.DataLayer", "OnlineShop.Services.AuthService.DataLayer\OnlineShop.Services.AuthService.DataLayer.csproj", "{5C379F72-8BC3-4541-BCB4-0645685C2744}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +23,23 @@ Global
 		{7FECDA66-0F09-4D1C-85B6-1B213ED27395}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FECDA66-0F09-4D1C-85B6-1B213ED27395}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FECDA66-0F09-4D1C-85B6-1B213ED27395}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9108F707-FBEB-452A-A414-7A3AFD4704A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9108F707-FBEB-452A-A414-7A3AFD4704A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9108F707-FBEB-452A-A414-7A3AFD4704A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9108F707-FBEB-452A-A414-7A3AFD4704A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C379F72-8BC3-4541-BCB4-0645685C2744}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C379F72-8BC3-4541-BCB4-0645685C2744}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C379F72-8BC3-4541-BCB4-0645685C2744}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C379F72-8BC3-4541-BCB4-0645685C2744}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{7FECDA66-0F09-4D1C-85B6-1B213ED27395} = {D6960493-CA30-49E5-81A5-FBE369F6F53B}
+		{7FECDA66-0F09-4D1C-85B6-1B213ED27395} = {C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}
+		{C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA} = {D6960493-CA30-49E5-81A5-FBE369F6F53B}
+		{9108F707-FBEB-452A-A414-7A3AFD4704A8} = {C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}
+		{5C379F72-8BC3-4541-BCB4-0645685C2744} = {C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13B922CB-F014-47CA-BEAA-1F354DE3EFCB}
