@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using OnlineShop.Services.AuthService.BusinessLayer.Exceptions;
 using OnlineShop.Services.AuthService.BusinessLayer.Models.Dto;
 using OnlineShop.Services.AuthService.BusinessLayer.Services.Interfaces;
@@ -11,18 +10,13 @@ namespace OnlineShop.Services.AuthService.BusinessLayer.Services.Implementations
     public class AuthenticationService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IMapper _mapper;
 
-        public AuthenticationService(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator,
-            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
+        public AuthenticationService(IUserRepository userRepository, IJwtTokenGenerator jwtTokenGenerator, IMapper mapper)
         {
             _userRepository = userRepository;
             _jwtTokenGenerator = jwtTokenGenerator;
-            _userManager = userManager;
-            _roleManager = roleManager;
             _mapper = mapper;
         }
 
@@ -30,11 +24,11 @@ namespace OnlineShop.Services.AuthService.BusinessLayer.Services.Implementations
         {
             var user = _mapper.Map<ApplicationUser>(registrationRequestDto);
 
-            var result = await _userManager.CreateAsync(user, registrationRequestDto.Password);
+            var result = await _userRepository.RegisterAsync(user, registrationRequestDto.Password);
 
             if (result.Succeeded)
             {
-                var userToReturn = await _userRepository.GetByEmailAsync(registrationRequestDto.Name);
+                var userToReturn = await _userRepository.GetByNameAsync(registrationRequestDto.Name);
 
                 var userDto = _mapper.Map<UserDto>(userToReturn);
 
@@ -48,17 +42,16 @@ namespace OnlineShop.Services.AuthService.BusinessLayer.Services.Implementations
 
         public async Task<ResponseDto> LoginAsync(LoginRequestDto loginRequestDto)
         {
-            var user = await _userRepository.GetByEmailAsync(loginRequestDto.UserName);
+            var user = await _userRepository.GetByNameAsync(loginRequestDto.UserName);
 
-            var isValid = await _userManager.CheckPasswordAsync(user, loginRequestDto.Password);
+            var isValid = await _userRepository.CheckPasswordAsync(user, loginRequestDto.Password);
 
             if (user == null || isValid == false)
             {
                 throw new LoginException("Username or password is incorrect");
             }
 
-            //if user was found , Generate JWT Token
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userRepository.GetRolesAsync(user);
             var token = _jwtTokenGenerator.GenerateToken(user, roles);
 
             var userDto = _mapper.Map<UserDto>(user);
@@ -72,18 +65,19 @@ namespace OnlineShop.Services.AuthService.BusinessLayer.Services.Implementations
             return new ResponseDto { Message = "User logged in successfuly", Result = loginResponseDto };
         }
 
-        public async Task<ResponseDto> AssignRoleAsync(string email, string roleName)
+        public async Task<ResponseDto> AssignRoleAsync(string name, string roleName)
         {
-            var user = await _userRepository.GetByEmailAsync(email);
-
+            var user = await _userRepository.GetByNameAsync(name);
             if (user != null)
             {
-                if (!_roleManager.RoleExistsAsync(roleName).GetAwaiter().GetResult())
+                var isRoleExist = await _userRepository.RoleExistsAsync(roleName);
+                if (!isRoleExist)
                 {
-                    //create role if it does not exist
-                    _roleManager.CreateAsync(new IdentityRole(roleName)).GetAwaiter().GetResult();
+                    await _userRepository.CreateRoleAsync(roleName);
                 }
-                await _userManager.AddToRoleAsync(user, roleName);
+
+                await _userRepository.AddToRoleAsync(user, roleName);
+                
                 return new ResponseDto { Message = "Role assigned successfuly" };
             }
             else

@@ -40,7 +40,7 @@ namespace OnlineShop.Services.AuthService.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> AssignRole([FromBody] AssignRoleRequestDto model)
         {
-            var response = await _authService.AssignRoleAsync(model.Email, model.Role.ToUpper());
+            var response = await _authService.AssignRoleAsync(model.Name, model.Role.ToUpper());
 
             return Ok(response);
         }
