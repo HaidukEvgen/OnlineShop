@@ -3,19 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.Api", "OnlineShop.Services.AuthServices.Api\OnlineShop.Services.AuthService.Api.csproj", "{7FECDA66-0F09-4D1C-85B6-1B213ED27395}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Auth.Api", "OnlineShop.Services.Auth.Api\OnlineShop.Services.Auth.Api.csproj", "{7FECDA66-0F09-4D1C-85B6-1B213ED27395}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D6960493-CA30-49E5-81A5-FBE369F6F53B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthSerivce", "AuthSerivce", "{C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth", "Auth", "{C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.BusinessLayer", "OnlineShop.Services.AuthService.BusinessLayer\OnlineShop.Services.AuthService.BusinessLayer.csproj", "{9108F707-FBEB-452A-A414-7A3AFD4704A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Auth.BusinessLayer", "OnlineShop.Services.Auth.BusinessLayer\OnlineShop.Services.Auth.BusinessLayer.csproj", "{9108F707-FBEB-452A-A414-7A3AFD4704A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.AuthService.DataLayer", "OnlineShop.Services.AuthService.DataLayer\OnlineShop.Services.AuthService.DataLayer.csproj", "{5C379F72-8BC3-4541-BCB4-0645685C2744}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Auth.DataLayer", "OnlineShop.Services.Auth.DataLayer\OnlineShop.Services.Auth.DataLayer.csproj", "{5C379F72-8BC3-4541-BCB4-0645685C2744}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CatalogService", "CatalogService", "{0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.CatalogService.Api", "OnlineShop.Services.CatalogService.Api\OnlineShop.Services.CatalogService.Api.csproj", "{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Catalog.Api", "OnlineShop.Services.Catalog.Api\OnlineShop.Services.Catalog.Api.csproj", "{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Catalog.Domain", "OnlineShop.Services.Catalog.Domain\OnlineShop.Services.Catalog.Domain.csproj", "{376C2608-3612-4D61-A9FE-35D053D728AB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Catalog.Infrastructure", "OnlineShop.Services.Catalog.Infrastructure\OnlineShop.Services.Catalog.Infrastructure.csproj", "{D8E1A208-9678-48A1-8F45-7FFFAC973DBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Catalog.Application", "OnlineShop.Services.Catalog.Application\OnlineShop.Services.Catalog.Application.csproj", "{691232F4-CF3E-4EC3-B4FB-F300893470B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{376C2608-3612-4D61-A9FE-35D053D728AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{376C2608-3612-4D61-A9FE-35D053D728AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{376C2608-3612-4D61-A9FE-35D053D728AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{376C2608-3612-4D61-A9FE-35D053D728AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8E1A208-9678-48A1-8F45-7FFFAC973DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8E1A208-9678-48A1-8F45-7FFFAC973DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8E1A208-9678-48A1-8F45-7FFFAC973DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8E1A208-9678-48A1-8F45-7FFFAC973DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{691232F4-CF3E-4EC3-B4FB-F300893470B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{691232F4-CF3E-4EC3-B4FB-F300893470B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{691232F4-CF3E-4EC3-B4FB-F300893470B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{691232F4-CF3E-4EC3-B4FB-F300893470B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -50,6 +68,9 @@ Global
 		{5C379F72-8BC3-4541-BCB4-0645685C2744} = {C4DEAD12-D4BD-4A58-9C25-9F6A93D0B4DA}
 		{0A9A6E9C-40FA-468D-833C-F0BEBBB2400E} = {D6960493-CA30-49E5-81A5-FBE369F6F53B}
 		{19149C6F-AB25-48CB-A6E4-1147AA4E4B3C} = {0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}
+		{376C2608-3612-4D61-A9FE-35D053D728AB} = {0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}
+		{D8E1A208-9678-48A1-8F45-7FFFAC973DBF} = {0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}
+		{691232F4-CF3E-4EC3-B4FB-F300893470B6} = {0A9A6E9C-40FA-468D-833C-F0BEBBB2400E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13B922CB-F014-47CA-BEAA-1F354DE3EFCB}
