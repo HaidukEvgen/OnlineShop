@@ -4,7 +4,7 @@ using OnlineShop.Services.Catalog.Application.Models.Dto;
 
 namespace OnlineShop.Services.Catalog.Application.Validators
 {
-    public class AddProductDtoValidator : AbstractBaseValidator<AddProductDto>
+    public class AddProductDtoValidator : AbstractBaseValidator<NewProductDto>
     {
         public AddProductDtoValidator()
         {
@@ -28,7 +28,7 @@ namespace OnlineShop.Services.Catalog.Application.Validators
                 .MaximumLength(100).WithMessage(ValidationMessages.StringLessThan(100)); ;
         }
 
-        public override ValidationResult Validate(ValidationContext<AddProductDto> context)
+        public override ValidationResult Validate(ValidationContext<NewProductDto> context)
         {
             return base.Validate(context);
         }

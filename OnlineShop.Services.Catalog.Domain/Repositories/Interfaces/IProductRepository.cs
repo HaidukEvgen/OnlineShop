@@ -8,7 +8,7 @@ namespace OnlineShop.Services.Catalog.Domain.Repositories.Interfaces
         Task<Product> GetAsync(string id);
         Task<IEnumerable<Product>> GetByCategoryAsync(string category);
         Task<string> AddAsync(Product product);
-        Task<bool> UpdateAsync(Product product);
+        Task UpdateAsync(Product product);
         Task<bool> DeleteAsync(string id);
     }
 }

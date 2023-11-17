@@ -9,8 +9,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureFluentValidation();
-//builder.AddAppAuthetication();
-
 builder.Services.AddAuthorization();
 
 var app = builder.Build();

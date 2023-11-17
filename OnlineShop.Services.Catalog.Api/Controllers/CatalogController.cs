@@ -1,23 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OnlineShop.Services.Catalog.Domain.Models.Data;
 using OnlineShop.Services.Catalog.Application.Models.Dto;
 using OnlineShop.Services.Catalog.Application.Services.Interfaces;
 
 namespace OnlineShop.Services.Catalog.Api.Controllers
 {
-    [Route("api/catalog")]
+    [Route("api/products")]
     [ApiController]
-    public class CatalogAPIController : ControllerBase
+    public class CatalogController : ControllerBase
     {
         private readonly ICatalogService _catalogService;
 
-        public CatalogAPIController(ICatalogService catalogService)
+        public CatalogController(ICatalogService catalogService)
         {
             _catalogService = catalogService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> GetProductsAsync()
         {
             var response = await _catalogService.GetAllProductsAsync();
 
@@ -25,39 +24,31 @@ namespace OnlineShop.Services.Catalog.Api.Controllers
         }
 
         [HttpGet("{id:length(24)}")]
-        public async Task<IActionResult> Get(string id)
+        public async Task<IActionResult> GetProductAsync(string id)
         {
             var response = await _catalogService.GetProductAsync(id);
 
             return Ok(response);
         }
 
-        [HttpGet("category/{name}")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductsByCategory(string name)
-        {
-            var products = await _catalogService.GetProductsByCategoryAsync(name);
-
-            return Ok(products);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] AddProductDto productDto)
+        public async Task<IActionResult> AddProductAsync([FromBody] NewProductDto productDto)
         {
             var response = await _catalogService.AddProductAsync(productDto);
 
             return Ok(response);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ProductDto productDto)
+        [HttpPut("{id:length(24)}")]
+        public async Task<IActionResult> UpdateProductAsync(string id, [FromBody] NewProductDto productDto)
         {
-            var response = await _catalogService.UpdateProductAsync(productDto);
+            var response = await _catalogService.UpdateProductAsync(id, productDto);
 
             return Ok(response);
         }
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> DeleteProductAsync(string id)
         {
             var response = await _catalogService.DeleteProductAsync(id);
 

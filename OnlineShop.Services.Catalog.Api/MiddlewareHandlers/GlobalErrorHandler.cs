@@ -29,6 +29,7 @@ namespace OnlineShop.Services.Catalog.Api.MiddlewareHandlers
                 {
                     ValidationException => (int)HttpStatusCode.BadRequest,
                     ProductNotFoundException => (int)HttpStatusCode.NotFound,
+                    InvalidIdException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 

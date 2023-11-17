@@ -46,7 +46,7 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<ResponseDto> AddProductAsync(AddProductDto productDto)
+        public async Task<ResponseDto> AddProductAsync(NewProductDto productDto)
         {
             var product = _mapper.Map<Product>(productDto);
             var id = await _productRepository.AddAsync(product);
@@ -55,15 +55,13 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<ResponseDto> UpdateProductAsync(ProductDto productDto)
+        public async Task<ResponseDto> UpdateProductAsync(string id, NewProductDto productDto)
         {
-            var product = _mapper.Map<Product>(productDto);
-            var isSuccess = await _productRepository.UpdateAsync(product);
+            var existingProduct = await _productRepository.GetAsync(id) 
+                ?? throw new ProductNotFoundException(id);
 
-            if (!isSuccess)
-            {
-                throw new ProductNotFoundException(productDto.Id);
-            }
+            var product = _mapper.Map(productDto, existingProduct);
+            await _productRepository.UpdateAsync(product);
 
             var response = new ResponseDto() { Message = "Product updated successfully" };
 

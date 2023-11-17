@@ -1,6 +1,6 @@
 ﻿namespace OnlineShop.Services.Catalog.Application.Models.Dto
 {
-    public class AddProductDto
+    public class NewProductDto
     {
         public string Name { get; set; }
         public decimal Price { get; set; }

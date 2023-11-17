@@ -7,8 +7,8 @@ namespace OnlineShop.Services.Catalog.Application.Services.Interfaces
         Task<ResponseDto> GetAllProductsAsync();
         Task<ResponseDto> GetProductAsync(string id);
         Task<ResponseDto> GetProductsByCategoryAsync(string category);
-        Task<ResponseDto> AddProductAsync(AddProductDto productDto);
-        Task<ResponseDto> UpdateProductAsync(ProductDto productDto);
+        Task<ResponseDto> AddProductAsync(NewProductDto productDto);
+        Task<ResponseDto> UpdateProductAsync(string id, NewProductDto productDto);
         Task<ResponseDto> DeleteProductAsync(string id);
     }
 }

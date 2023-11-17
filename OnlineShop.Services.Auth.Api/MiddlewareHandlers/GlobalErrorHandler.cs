@@ -1,5 +1,6 @@
 ﻿using OnlineShop.Services.Auth.BusinessLayer.Exceptions;
 using OnlineShop.Services.Auth.BusinessLayer.Models.Dto;
+using OnlineShop.Services.Catalog.Application.Exceptions;
 using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Text.Json;

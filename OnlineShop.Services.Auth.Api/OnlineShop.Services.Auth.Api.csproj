@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.Services.Auth.BusinessLayer\OnlineShop.Services.Auth.BusinessLayer.csproj" />
+    <ProjectReference Include="..\OnlineShop.Services.Catalog.Infrastructure\OnlineShop.Services.Catalog.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,9 @@
 ﻿using MongoDB.Driver;
+using OnlineShop.Services.Catalog.Application.Exceptions;
 using OnlineShop.Services.Catalog.Domain.Models.Data;
 using OnlineShop.Services.Catalog.Domain.Repositories.Interfaces;
 using OnlineShop.Services.Catalog.Infrastructure.Data.Interfaces;
+using System.Linq.Expressions;
 
 namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementations
 {
@@ -21,14 +23,23 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
                      .ToListAsync();
 
         public async Task<Product> GetAsync(string id)
-            => await _catalogContext
-                    .Products
-                    .Find(product => product.Id == id)
-                    .FirstOrDefaultAsync();
+        {
+            try
+            {
+                return await _catalogContext
+                            .Products
+                            .Find(product => product.Id == id)
+                            .FirstOrDefaultAsync();
+            }
+            catch(FormatException ex)
+            {
+                throw new InvalidIdException(ex.Message);
+            }
+        }
 
         public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(product => product.Category, category);
+            var filter = BuildEqualityFilter(product => product.Category, category);
 
             return await _catalogContext
                         .Products
@@ -43,23 +54,27 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
             return product.Id;
         }
 
-        public async Task<bool> UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product)
         {
+            var filter = BuildEqualityFilter(p => p.Id, product.Id);
+
             var updateResult = await _catalogContext
                                     .Products
-                                    .ReplaceOneAsync(filter: g => g.Id == product.Id, replacement: product);
-
-            return updateResult.IsAcknowledged;
+                                    .ReplaceOneAsync(filter, product);
         }
 
         public async Task<bool> DeleteAsync(string id)
         {
-            FilterDefinition<Product> filter = Builders<Product>.Filter.Eq(p => p.Id, id);
-            DeleteResult deleteResult = await _catalogContext
+            var filter = BuildEqualityFilter(p => p.Id, id);
+            var deleteResult = await _catalogContext
                                             .Products
                                             .DeleteOneAsync(filter);
 
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
+
+        private FilterDefinition<Product> BuildEqualityFilter(Expression<Func<Product, string>> field, string value) 
+            => Builders<Product>.Filter.Eq(new ExpressionFieldDefinition<Product, string>(field), value);
+        
     }
 }

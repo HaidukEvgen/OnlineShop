@@ -1,7 +1,5 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
 using OnlineShop.Services.Catalog.Api.MiddlewareHandlers;
 using OnlineShop.Services.Catalog.Application.Mapper;
 using OnlineShop.Services.Catalog.Application.Services.Implementations;
@@ -12,7 +10,6 @@ using OnlineShop.Services.Catalog.Infrastructure.Data;
 using OnlineShop.Services.Catalog.Infrastructure.Data.Implementations;
 using OnlineShop.Services.Catalog.Infrastructure.Data.Interfaces;
 using OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementations;
-using System.Text;
 
 namespace OnlineShop.Services.Catalog.Api.Extensions
 {
@@ -39,36 +36,6 @@ namespace OnlineShop.Services.Catalog.Api.Extensions
         {
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssembly(typeof(AddProductDtoValidator).Assembly);
-        }
-
-        public static WebApplicationBuilder AddAppAuthetication(this WebApplicationBuilder builder)
-        {
-            var settingsSection = builder.Configuration.GetSection("ApiSettings");
-
-            var secret = settingsSection.GetValue<string>("Secret");
-            var issuer = settingsSection.GetValue<string>("Issuer");
-            var audience = settingsSection.GetValue<string>("Audience");
-
-            var key = Encoding.ASCII.GetBytes(secret);
-
-            builder.Services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x =>
-            {
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidIssuer = issuer,
-                    ValidAudience = audience,
-                    ValidateAudience = true
-                };
-            });
-
-            return builder;
         }
 
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
