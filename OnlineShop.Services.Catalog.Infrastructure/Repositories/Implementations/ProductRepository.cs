@@ -15,55 +15,45 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
             _catalogContext = catalogContext;
         }
 
-        public async Task<IEnumerable<Product>> GetAllAsync()
+        public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _catalogContext
                         .Products
                         .Find(p => true)
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
         }
 
-        public async Task<Product> GetAsync(string id)
+        public async Task<Product> GetAsync(string id, CancellationToken cancellationToken)
         {
             return await _catalogContext
                         .Products
                         .Find(product => product.Id == id)
-                        .FirstOrDefaultAsync();
+                        .FirstOrDefaultAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
+        public async Task<string> AddAsync(Product product, CancellationToken cancellationToken)
         {
-            var filter = BuildEqualityFilter(product => product.Category, category);
-
-            return await _catalogContext
-                        .Products
-                        .Find(filter)
-                        .ToListAsync();
-        }
-
-        public async Task<string> AddAsync(Product product)
-        {
-            await _catalogContext.Products.InsertOneAsync(product);
+            await _catalogContext.Products.InsertOneAsync(product, options: null, cancellationToken );
 
             return product.Id;
         }
 
-        public async Task UpdateAsync(Product product)
+        public async Task UpdateAsync(Product product, CancellationToken cancellationToken)
         {
             var filter = BuildEqualityFilter(p => p.Id, product.Id);
 
             var updateResult = await _catalogContext
                                     .Products
-                                    .ReplaceOneAsync(filter, product);
+                                    .ReplaceOneAsync(filter, product, cancellationToken: cancellationToken);
         }
 
-        public async Task<bool> DeleteAsync(string id)
+        public async Task<bool> DeleteAsync(string id, CancellationToken cancellationToken)
         {
             var filter = BuildEqualityFilter(p => p.Id, id);
 
             var deleteResult = await _catalogContext
                                             .Products
-                                            .DeleteOneAsync(filter);
+                                            .DeleteOneAsync(filter, cancellationToken: cancellationToken);
 
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }

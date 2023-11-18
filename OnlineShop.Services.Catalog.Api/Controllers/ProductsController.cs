@@ -16,41 +16,41 @@ namespace OnlineShop.Services.Catalog.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProductsAsync()
+        public async Task<IActionResult> GetProductsAsync(CancellationToken cancellationToken)
         {
-            var response = await _catalogService.GetAllProductsAsync();
+            var response = await _catalogService.GetAllProductsAsync(cancellationToken);
 
             return Ok(response);
         }
 
         [HttpGet("{id:length(24)}")]
-        public async Task<IActionResult> GetProductAsync([FromRoute] string id)
+        public async Task<IActionResult> GetProductAsync([FromRoute] string id, CancellationToken cancellationToken)
         {
-            var response = await _catalogService.GetProductAsync(id);
+            var response = await _catalogService.GetProductAsync(id, cancellationToken);
 
             return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddProductAsync([FromBody] NewProductDto productDto)
+        public async Task<IActionResult> AddProductAsync([FromBody] NewProductDto productDto, CancellationToken cancellationToken)
         {
-            var response = await _catalogService.AddProductAsync(productDto);
+            var response = await _catalogService.AddProductAsync(productDto, cancellationToken);
 
             return Ok(response);
         }
 
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> UpdateProductAsync([FromRoute] string id, [FromBody] NewProductDto productDto)
+        public async Task<IActionResult> UpdateProductAsync([FromRoute] string id, [FromBody] NewProductDto productDto, CancellationToken cancellationToken)
         {
-            var response = await _catalogService.UpdateProductAsync(id, productDto);
+            var response = await _catalogService.UpdateProductAsync(id, productDto, cancellationToken);
 
             return Ok(response);
         }
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> DeleteProductAsync([FromRoute] string id)
+        public async Task<IActionResult> DeleteProductAsync([FromRoute] string id, CancellationToken cancellationToken)
         {
-            var response = await _catalogService.DeleteProductAsync(id);
+            var response = await _catalogService.DeleteProductAsync(id, cancellationToken);
 
             return Ok(response);
         }

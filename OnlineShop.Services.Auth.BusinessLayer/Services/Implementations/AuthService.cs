@@ -24,7 +24,7 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
         {
             var user = _mapper.Map<ApplicationUser>(registrationRequestDto);
 
-            var result = await _userRepository.RegisterAsync(user, registrationRequestDto.Password, cancellationToken);
+            var result = await _userRepository.RegisterAsync(user, registrationRequestDto.Password);
 
             if (result.Succeeded)
             {
@@ -44,7 +44,7 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
         {
             var user = await _userRepository.GetByNameAsync(loginRequestDto.UserName, cancellationToken);
 
-            var isValid = await _userRepository.CheckPasswordAsync(user, loginRequestDto.Password, cancellationToken);
+            var isValid = await _userRepository.CheckPasswordAsync(user, loginRequestDto.Password);
 
             if (user == null || isValid == false)
             {
@@ -70,13 +70,13 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
             var user = await _userRepository.GetByNameAsync(name, cancellationToken);
             if (user != null)
             {
-                var isRoleExist = await _userRepository.RoleExistsAsync(roleName, cancellationToken);
+                var isRoleExist = await _userRepository.RoleExistsAsync(roleName);
                 if (!isRoleExist)
                 {
-                    await _userRepository.CreateRoleAsync(roleName, cancellationToken);
+                    await _userRepository.CreateRoleAsync(roleName);
                 }
 
-                await _userRepository.AddToRoleAsync(user, roleName, cancellationToken);
+                await _userRepository.AddToRoleAsync(user, roleName);
 
                 return new ResponseDto<object> { Message = "Role assigned successfuly" };
             }

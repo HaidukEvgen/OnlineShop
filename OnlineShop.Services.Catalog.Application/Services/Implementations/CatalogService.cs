@@ -18,18 +18,18 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllProductsAsync()
+        public async Task<ResponseDto<IEnumerable<ProductDto>>> GetAllProductsAsync(CancellationToken cancellationToken)
         {
-            var products = await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync(cancellationToken);
             var productDtos = _mapper.Map<IEnumerable<ProductDto>>(products);
             var response = new ResponseDto<IEnumerable<ProductDto>>() { Result = productDtos };
 
             return response;
         }
 
-        public async Task<ResponseDto<ProductDto>> GetProductAsync(string id)
+        public async Task<ResponseDto<ProductDto>> GetProductAsync(string id, CancellationToken cancellationToken)
         {
-            var product = await _productRepository.GetAsync(id);
+            var product = await _productRepository.GetAsync(id, cancellationToken);
 
             if (product is null)
             {
@@ -42,18 +42,18 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<ResponseDto<string>> AddProductAsync(NewProductDto productDto)
+        public async Task<ResponseDto<string>> AddProductAsync(NewProductDto productDto, CancellationToken cancellationToken)
         {
             var product = _mapper.Map<Product>(productDto);
-            var id = await _productRepository.AddAsync(product);
+            var id = await _productRepository.AddAsync(product, cancellationToken);
             var response = new ResponseDto<string>() { Message = "Product added successfully", Result = id };
 
             return response;
         }
 
-        public async Task<ResponseDto<object>> UpdateProductAsync(string id, NewProductDto productDto)
+        public async Task<ResponseDto<object>> UpdateProductAsync(string id, NewProductDto productDto, CancellationToken cancellationToken)
         {
-            var existingProduct = await _productRepository.GetAsync(id);
+            var existingProduct = await _productRepository.GetAsync(id, cancellationToken);
 
             if (existingProduct is null)
             {
@@ -61,16 +61,16 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             }
 
             var product = _mapper.Map(productDto, existingProduct);
-            await _productRepository.UpdateAsync(product);
+            await _productRepository.UpdateAsync(product, cancellationToken);
 
             var response = new ResponseDto<object>() { Message = "Product updated successfully" };
 
             return response;
         }
 
-        public async Task<ResponseDto<object>> DeleteProductAsync(string id)
+        public async Task<ResponseDto<object>> DeleteProductAsync(string id, CancellationToken cancellationToken)
         {
-            var isSuccess = await _productRepository.DeleteAsync(id);
+            var isSuccess = await _productRepository.DeleteAsync(id, cancellationToken);
 
             if (!isSuccess)
             {
