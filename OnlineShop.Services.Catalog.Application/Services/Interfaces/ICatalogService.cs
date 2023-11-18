@@ -4,11 +4,10 @@ namespace OnlineShop.Services.Catalog.Application.Services.Interfaces
 {
     public interface ICatalogService
     {
-        Task<ResponseDto> GetAllProductsAsync();
-        Task<ResponseDto> GetProductAsync(string id);
-        Task<ResponseDto> GetProductsByCategoryAsync(string category);
-        Task<ResponseDto> AddProductAsync(NewProductDto productDto);
-        Task<ResponseDto> UpdateProductAsync(string id, NewProductDto productDto);
-        Task<ResponseDto> DeleteProductAsync(string id);
+        Task<ResponseDto<IEnumerable<ProductDto>>> GetAllProductsAsync();
+        Task<ResponseDto<ProductDto>> GetProductAsync(string id);
+        Task<ResponseDto<string>> AddProductAsync(NewProductDto productDto);
+        Task<ResponseDto<object>> UpdateProductAsync(string id, NewProductDto productDto);
+        Task<ResponseDto<object>> DeleteProductAsync(string id);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using MongoDB.Driver;
-using OnlineShop.Services.Catalog.Application.Exceptions;
 using OnlineShop.Services.Catalog.Domain.Models.Data;
 using OnlineShop.Services.Catalog.Domain.Repositories.Interfaces;
 using OnlineShop.Services.Catalog.Infrastructure.Data.Interfaces;
@@ -17,24 +16,19 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
-            => await _catalogContext
-                     .Products
-                     .Find(p => true)
-                     .ToListAsync();
+        {
+            return await _catalogContext
+                        .Products
+                        .Find(p => true)
+                        .ToListAsync();
+        }
 
         public async Task<Product> GetAsync(string id)
         {
-            try
-            {
-                return await _catalogContext
-                            .Products
-                            .Find(product => product.Id == id)
-                            .FirstOrDefaultAsync();
-            }
-            catch(FormatException ex)
-            {
-                throw new InvalidIdException(ex.Message);
-            }
+            return await _catalogContext
+                        .Products
+                        .Find(product => product.Id == id)
+                        .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<Product>> GetByCategoryAsync(string category)
@@ -66,6 +60,7 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
         public async Task<bool> DeleteAsync(string id)
         {
             var filter = BuildEqualityFilter(p => p.Id, id);
+
             var deleteResult = await _catalogContext
                                             .Products
                                             .DeleteOneAsync(filter);
@@ -73,8 +68,9 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
             return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
         }
 
-        private FilterDefinition<Product> BuildEqualityFilter(Expression<Func<Product, string>> field, string value) 
-            => Builders<Product>.Filter.Eq(new ExpressionFieldDefinition<Product, string>(field), value);
-        
+        private FilterDefinition<Product> BuildEqualityFilter(Expression<Func<Product, string>> field, string value)
+        {
+            return Builders<Product>.Filter.Eq(new ExpressionFieldDefinition<Product, string>(field), value);
+        }
     }
 }

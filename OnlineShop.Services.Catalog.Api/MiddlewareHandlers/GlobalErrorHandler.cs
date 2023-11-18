@@ -29,11 +29,11 @@ namespace OnlineShop.Services.Catalog.Api.MiddlewareHandlers
                 {
                     ValidationException => (int)HttpStatusCode.BadRequest,
                     ProductNotFoundException => (int)HttpStatusCode.NotFound,
-                    InvalidIdException => (int)HttpStatusCode.BadRequest,
+                    FormatException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
-                var result = JsonSerializer.Serialize(new ResponseDto() { IsSuccess = false, Message = error.Message });
+                var result = JsonSerializer.Serialize(new ResponseDto<object>() { IsSuccess = false, Message = error.Message });
                 await response.WriteAsync(result);
             }
         }

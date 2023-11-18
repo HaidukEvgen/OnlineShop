@@ -9,6 +9,8 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Data.Implementations
     {
         private readonly CatalogDbOptions _catalogDbSettings;
 
+        public IMongoCollection<Product> Products { get; }
+
         public CatalogContext(IOptions<CatalogDbOptions> catalogDbSettings)
         {
             _catalogDbSettings = catalogDbSettings.Value;
@@ -17,6 +19,5 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Data.Implementations
             Products = database.GetCollection<Product>(_catalogDbSettings.CollectionName);
         }
 
-        public IMongoCollection<Product> Products { get; }
     }
 }

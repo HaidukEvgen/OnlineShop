@@ -2,6 +2,7 @@ using OnlineShop.Services.Catalog.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.ConfigureBusinessServices();
 builder.Services.ConfigureDbOptions(builder.Configuration);
 builder.Services.AddControllers();

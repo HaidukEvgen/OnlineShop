@@ -18,9 +18,9 @@ namespace OnlineShop.Services.Auth.Api.Controllers
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDto model)
+        public async Task<IActionResult> RegisterAsync([FromBody] RegistrationRequestDto model, CancellationToken cancellationToken)
         {
-            var response = await _authService.RegisterAsync(model);
+            var response = await _authService.RegisterAsync(model, cancellationToken);
 
             return Ok(response);
         }
@@ -28,9 +28,9 @@ namespace OnlineShop.Services.Auth.Api.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto model)
+        public async Task<IActionResult> LoginAsync([FromBody] LoginRequestDto model, CancellationToken cancellationToken)
         {
-            var response = await _authService.LoginAsync(model);
+            var response = await _authService.LoginAsync(model, cancellationToken);
 
             return Ok(response);
         }
@@ -38,9 +38,9 @@ namespace OnlineShop.Services.Auth.Api.Controllers
         [HttpPost("assignRole")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> AssignRoleAsync([FromBody] AssignRoleRequestDto model)
+        public async Task<IActionResult> AssignRoleAsync([FromBody] AssignRoleRequestDto model, CancellationToken cancellationToken)
         {
-            var response = await _authService.AssignRoleAsync(model.Name, model.Role.ToUpper());
+            var response = await _authService.AssignRoleAsync(model.Name, model.Role.ToUpper(), cancellationToken);
 
             return Ok(response);
         }

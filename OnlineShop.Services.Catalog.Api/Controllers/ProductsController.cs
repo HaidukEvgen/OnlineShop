@@ -4,13 +4,13 @@ using OnlineShop.Services.Catalog.Application.Services.Interfaces;
 
 namespace OnlineShop.Services.Catalog.Api.Controllers
 {
-    [Route("api/products")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CatalogController : ControllerBase
+    public class ProductsController : ControllerBase
     {
         private readonly ICatalogService _catalogService;
 
-        public CatalogController(ICatalogService catalogService)
+        public ProductsController(ICatalogService catalogService)
         {
             _catalogService = catalogService;
         }
@@ -24,7 +24,7 @@ namespace OnlineShop.Services.Catalog.Api.Controllers
         }
 
         [HttpGet("{id:length(24)}")]
-        public async Task<IActionResult> GetProductAsync(string id)
+        public async Task<IActionResult> GetProductAsync([FromRoute] string id)
         {
             var response = await _catalogService.GetProductAsync(id);
 
@@ -40,7 +40,7 @@ namespace OnlineShop.Services.Catalog.Api.Controllers
         }
 
         [HttpPut("{id:length(24)}")]
-        public async Task<IActionResult> UpdateProductAsync(string id, [FromBody] NewProductDto productDto)
+        public async Task<IActionResult> UpdateProductAsync([FromRoute] string id, [FromBody] NewProductDto productDto)
         {
             var response = await _catalogService.UpdateProductAsync(id, productDto);
 
@@ -48,7 +48,7 @@ namespace OnlineShop.Services.Catalog.Api.Controllers
         }
 
         [HttpDelete("{id:length(24)}")]
-        public async Task<IActionResult> DeleteProductAsync(string id)
+        public async Task<IActionResult> DeleteProductAsync([FromRoute] string id)
         {
             var response = await _catalogService.DeleteProductAsync(id);
 

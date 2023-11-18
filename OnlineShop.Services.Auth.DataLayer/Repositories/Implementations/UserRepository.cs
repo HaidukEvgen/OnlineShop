@@ -20,26 +20,40 @@ namespace OnlineShop.Services.Auth.DataLayer.Repositories.Implementations
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password) =>
-            await _userManager.CreateAsync(user, password);
 
+        public async Task<IdentityResult> RegisterAsync(ApplicationUser user, string password, CancellationToken cancellationToken = default)
+        {
+            return await _userManager.CreateAsync(user, password);
+        }
 
-        public async Task<ApplicationUser?> GetByNameAsync(string name) =>
-            await _dbSet.FirstOrDefaultAsync(x => x.Name == name);
+        public async Task<ApplicationUser?> GetByNameAsync(string name, CancellationToken cancellationToken = default)
+        {
+            return await _dbSet.FirstOrDefaultAsync(x => x.Name == name);
+        }
 
-        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password) =>
-            await _userManager.CheckPasswordAsync(user, password);
+        public async Task<bool> CheckPasswordAsync(ApplicationUser user, string password, CancellationToken cancellationToken = default)
+        {
+            return await _userManager.CheckPasswordAsync(user, password);
+        }
 
-        public async Task<IList<string>> GetRolesAsync(ApplicationUser user) =>
-            await _userManager.GetRolesAsync(user);
+        public async Task<IList<string>> GetRolesAsync(ApplicationUser user, CancellationToken cancellationToken = default)
+        {
+            return await _userManager.GetRolesAsync(user);
+        }
 
-        public async Task<bool> RoleExistsAsync(string roleName) =>
-            await _roleManager.RoleExistsAsync(roleName);
+        public async Task<bool> RoleExistsAsync(string roleName, CancellationToken cancellationToken = default)
+        {
+            return await _roleManager.RoleExistsAsync(roleName);
+        }
 
-        public async Task CreateRoleAsync(string roleName) =>
+        public async Task CreateRoleAsync(string roleName, CancellationToken cancellationToken = default)
+        {
             await _roleManager.CreateAsync(new IdentityRole(roleName));
+        }
 
-        public async Task AddToRoleAsync(ApplicationUser user, string roleName) =>
+        public async Task AddToRoleAsync(ApplicationUser user, string roleName, CancellationToken cancellationToken = default)
+        {
             await _userManager.AddToRoleAsync(user, roleName);
+        }
     }
 }

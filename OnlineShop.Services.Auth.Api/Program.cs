@@ -2,6 +2,7 @@ using OnlineShop.Services.Auth.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.Services.ConfigureMsSqlServerContext(builder.Configuration);
 builder.Services.ConfigureJwtOptions(builder.Configuration);
 builder.Services.ConfigureIdentity();

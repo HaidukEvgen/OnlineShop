@@ -20,19 +20,19 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<ResponseDto> RegisterAsync(RegistrationRequestDto registrationRequestDto)
+        public async Task<ResponseDto<UserDto>> RegisterAsync(RegistrationRequestDto registrationRequestDto, CancellationToken cancellationToken = default)
         {
             var user = _mapper.Map<ApplicationUser>(registrationRequestDto);
 
-            var result = await _userRepository.RegisterAsync(user, registrationRequestDto.Password);
+            var result = await _userRepository.RegisterAsync(user, registrationRequestDto.Password, cancellationToken);
 
             if (result.Succeeded)
             {
-                var userToReturn = await _userRepository.GetByNameAsync(registrationRequestDto.Name);
+                var userToReturn = await _userRepository.GetByNameAsync(registrationRequestDto.Name, cancellationToken);
 
                 var userDto = _mapper.Map<UserDto>(userToReturn);
 
-                return new ResponseDto { Message = "User registered successfuly", Result = userDto };
+                return new ResponseDto<UserDto> { Message = "User registered successfuly", Result = userDto };
             }
             else
             {
@@ -40,11 +40,11 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
             }
         }
 
-        public async Task<ResponseDto> LoginAsync(LoginRequestDto loginRequestDto)
+        public async Task<ResponseDto<LoginResponseDto>> LoginAsync(LoginRequestDto loginRequestDto, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetByNameAsync(loginRequestDto.UserName);
+            var user = await _userRepository.GetByNameAsync(loginRequestDto.UserName, cancellationToken);
 
-            var isValid = await _userRepository.CheckPasswordAsync(user, loginRequestDto.Password);
+            var isValid = await _userRepository.CheckPasswordAsync(user, loginRequestDto.Password, cancellationToken);
 
             if (user == null || isValid == false)
             {
@@ -62,23 +62,23 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
                 Token = token
             };
 
-            return new ResponseDto { Message = "User logged in successfuly", Result = loginResponseDto };
+            return new ResponseDto<LoginResponseDto> { Message = "User logged in successfuly", Result = loginResponseDto };
         }
 
-        public async Task<ResponseDto> AssignRoleAsync(string name, string roleName)
+        public async Task<ResponseDto<object>> AssignRoleAsync(string name, string roleName, CancellationToken cancellationToken = default)
         {
-            var user = await _userRepository.GetByNameAsync(name);
+            var user = await _userRepository.GetByNameAsync(name, cancellationToken);
             if (user != null)
             {
-                var isRoleExist = await _userRepository.RoleExistsAsync(roleName);
+                var isRoleExist = await _userRepository.RoleExistsAsync(roleName, cancellationToken);
                 if (!isRoleExist)
                 {
-                    await _userRepository.CreateRoleAsync(roleName);
+                    await _userRepository.CreateRoleAsync(roleName, cancellationToken);
                 }
 
-                await _userRepository.AddToRoleAsync(user, roleName);
+                await _userRepository.AddToRoleAsync(user, roleName, cancellationToken);
 
-                return new ResponseDto { Message = "Role assigned successfuly" };
+                return new ResponseDto<object> { Message = "Role assigned successfuly" };
             }
             else
             {
