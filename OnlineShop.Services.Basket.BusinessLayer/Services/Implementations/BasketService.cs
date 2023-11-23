@@ -82,11 +82,13 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             var jsonContent = JsonConvert.SerializeObject(orderCreateDto);
             var httpContent = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync(apiUrl, httpContent);
+            var response = await httpClient.PostAsync(apiUrl, httpContent, cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
-                var responseBody = await response.Content.ReadAsStringAsync();
+                await DeleteBasketAsync(userId, cancellationToken);
+
+                var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
                 return new ResponseDto<object> { Message = "Order created successfully.", Result = responseBody };
             }
