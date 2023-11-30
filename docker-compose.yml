@@ -1,0 +1,34 @@
+version: '3.4'
+
+services:
+  onlineshop.services.auth.api:
+    image: ${DOCKER_REGISTRY-}onlineshopservicesauthapi
+    build:
+      context: .
+      dockerfile: OnlineShop.Services.Auth.Api\Dockerfile
+    depends_on: 
+      - sqlserver
+
+  onlineshop.services.catalog.api:
+    image: ${DOCKER_REGISTRY-}onlineshopservicescatalogapi
+    build:
+      context: .
+      dockerfile: OnlineShop.Services.Catalog.Api\Dockerfile
+
+  onlineshop.services.basket.api:
+    image: ${DOCKER_REGISTRY-}onlineshopservicesbasketapi
+    build:
+      context: .
+      dockerfile: OnlineShop.Services.Basket.Api\Dockerfile
+
+  sqlserver: 
+    container_name: SqlServer
+    image: mcr.microsoft.com/mssql/server:2022-latest
+
+  redis:
+    container_name: Redis
+    image: redis:latest
+
+  mongodb:
+    container_name: Mongo
+    image: mongo
