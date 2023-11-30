@@ -18,6 +18,13 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Mapper
                 .ForMember(dest => dest.Items, opt => opt.MapFrom(src => src.Items));
 
             CreateMap<BasketItemDto, ShoppingCartItem>();
+
+            CreateMap<ShoppingCart, OrderCreateDto>()
+               .ForMember(dest => dest.UserId, opt => opt.Ignore())
+               .ForMember(dest => dest.ProductIds, opt => opt.MapFrom(src => src.Items.Select(item => item.ProductId)))
+               .ForMember(dest => dest.Total, opt => opt.MapFrom(src => src.TotalPrice));
+
+            CreateMap<OrderDetailsDto, OrderCreateDto>();
         }
     }
 }

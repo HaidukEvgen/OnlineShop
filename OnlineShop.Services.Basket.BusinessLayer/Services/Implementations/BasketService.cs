@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Newtonsoft.Json;
 using OnlineShop.Services.Basket.BusinessLayer.Exceptions;
+using OnlineShop.Services.Basket.BusinessLayer.Mapper;
 using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces;
 using OnlineShop.Services.Basket.DataLayer.Models.Data;
@@ -63,16 +64,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
                 throw new BasketNotFoundException(userId);
             }
 
-            var orderCreateDto = new OrderCreateDto
-            {
-                UserId = userId,
-                ProductIds = basket.Items.Select(basketItem => basketItem.ProductId).ToArray(),
-                Total = basket.TotalPrice,
-                Comment = orderDetailsDto.Comment,
-                DeliveryAddress = orderDetailsDto.DeliveryAddress,
-                PhoneNumber = orderDetailsDto.PhoneNumber
-            };
-
+            var orderCreateDto = _mapper.MapToOrderCreateDto(basket, orderDetailsDto, userId);
 
             //TODO: Replace this temporary synchronous communication with RabbitMQ message bus
             var apiUrl = "https://localhost:7004/api/orders";
