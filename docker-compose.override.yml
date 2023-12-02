@@ -1,0 +1,67 @@
+version: '3.4'
+
+services:
+  onlineshop.services.auth.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - 6000:80
+      - 7000:443
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  onlineshop.services.catalog.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - 6001:80
+      - 7001:443
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  onlineshop.services.basket.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - 6003:80
+      - 7003:443
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  
+  sqlserver:
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Passw0rd
+    user: root
+    ports:
+      - 1433:1433
+    volumes:
+      - mssql-data:/var/opt/mssql/data
+    restart: unless-stopped
+
+  mongodb:
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-data:/data/db
+    restart: unless-stopped
+
+  redis:
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports: 
+      - 6379:6379
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+volumes:
+  mssql-data:
+  mongo-data:
+  redis-data:
