@@ -23,6 +23,17 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
 
+  onlineshop.services.order.api:
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+        - 6002:80
+        - 7002:443
+    volumes:
+        - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+        - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+  
   onlineshop.services.basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -33,7 +44,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-  
+
   sqlserver:
     environment:
       - ACCEPT_EULA=Y
@@ -61,7 +72,18 @@ services:
       - redis-data:/data
     restart: unless-stopped
 
+  rabbitmq:
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    restart: unless-stopped
+
+
 volumes:
   mssql-data:
   mongo-data:
   redis-data:
+  rabbitmq-data:
+

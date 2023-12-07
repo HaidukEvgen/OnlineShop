@@ -15,6 +15,12 @@ services:
       context: .
       dockerfile: OnlineShop.Services.Catalog.Api\Dockerfile
 
+  onlineshop.services.order.api:
+    image: ${DOCKER_REGISTRY-}onlineshopservicesorderapi
+    build:
+      context: .
+      dockerfile: OnlineShop.Services.Order.Api\Dockerfile
+
   onlineshop.services.basket.api:
     image: ${DOCKER_REGISTRY-}onlineshopservicesbasketapi
     build:
@@ -32,3 +38,7 @@ services:
   mongodb:
     container_name: Mongo
     image: mongo
+
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:latest
