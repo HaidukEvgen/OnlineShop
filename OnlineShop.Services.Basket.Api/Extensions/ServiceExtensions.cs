@@ -1,12 +1,12 @@
-﻿using FluentValidation.AspNetCore;
-using FluentValidation;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
 using OnlineShop.Services.Basket.Api.MiddlewareHandlers;
 using OnlineShop.Services.Basket.BusinessLayer.Mapper;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Implementations;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces;
+using OnlineShop.Services.Basket.BusinessLayer.Validators;
 using OnlineShop.Services.Basket.DataLayer.Repositories.Implementations;
 using OnlineShop.Services.Basket.DataLayer.Repositories.Interfaces;
-using OnlineShop.Services.Basket.BusinessLayer.Validators;
 
 namespace OnlineShop.Services.Basket.Api.Extensions
 {

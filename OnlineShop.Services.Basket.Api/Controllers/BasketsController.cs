@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces;
 

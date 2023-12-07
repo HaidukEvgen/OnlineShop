@@ -37,7 +37,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
 
         public async Task<ResponseDto<BasketDto>> UpdateBasketAsync(string userId, UpdateBasketDto basketDto, CancellationToken cancellationToken = default)
         {
-            
+
             var updatedBasket = _mapper.Map<ShoppingCart>(basketDto);
 
             updatedBasket = await _basketRepository.UpdateBasketAsync(userId, updatedBasket, cancellationToken);
@@ -67,10 +67,10 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             var orderCreateDto = _mapper.MapToOrderCreateDto(basket, orderDetailsDto, userId);
 
             //TODO: Replace this temporary synchronous communication with RabbitMQ message bus
-            var apiUrl = "https://localhost:7004/api/orders";
+            var apiUrl = "http://onlineshop.services.order.api/api/orders";
 
             using var httpClient = new HttpClient();
-            
+
             var jsonContent = JsonConvert.SerializeObject(orderCreateDto);
             var httpContent = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
 
@@ -87,7 +87,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             else
             {
                 throw new OrderCreationException(response.StatusCode.ToString());
-            }            
+            }
         }
     }
 }
