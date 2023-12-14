@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using MassTransit;
 using OnlineShop.Services.Basket.Api.MiddlewareHandlers;
 using OnlineShop.Services.Basket.BusinessLayer.Mapper;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Implementations;
@@ -30,6 +31,19 @@ namespace OnlineShop.Services.Basket.Api.Extensions
         {
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+        }
+
+        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddMassTransit(busConfigurator =>
+            {
+                busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+                busConfigurator.UsingRabbitMq((busRegistrationContext, busConfigurator) =>
+                {
+                    busConfigurator.ConfigureEndpoints(busRegistrationContext);
+                });
+            });
         }
 
         public static void ConfigureAutoMapper(this IServiceCollection services)
