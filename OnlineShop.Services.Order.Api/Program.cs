@@ -12,6 +12,7 @@ builder.Services.ConfigureRepositories();
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureMediatR();
 builder.Services.ConfigureFluentValidation();
+builder.Services.ConfigureMassTransit(builder.Configuration);
 
 var app = builder.Build();
 
