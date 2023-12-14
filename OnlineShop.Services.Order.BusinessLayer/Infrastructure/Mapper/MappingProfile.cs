@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using OnlineShop.Services.Order.BusinessLayer.Models.Dto;
 using OnlineShop.Services.Order.DataLayer.Models;
+using OnlineShop.Shared.MassTransit.Messages;
 using System.Text.Json;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Infrastructure.Mapper
@@ -17,6 +18,8 @@ namespace OnlineShop.Services.Order.BusinessLayer.Infrastructure.Mapper
                 .ForMember(order => order.Products, opt =>
                     opt.MapFrom(dto => SerializeProducts(dto.ProductIds)))
                 .AfterMap((dto, order) => order.OrderNumber = order.GenerateOrderNumber());
+
+            CreateMap<OrderCreatedEvent, OrderCreateDto>();
 
             CreateMap<OrderUpdateDto, OrderModel>();
         }

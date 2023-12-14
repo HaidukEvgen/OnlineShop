@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using MediatR;
+﻿using MediatR;
 using OnlineShop.Services.Order.BusinessLayer.Commands;
 using OnlineShop.Services.Order.BusinessLayer.Exceptions;
 using OnlineShop.Services.Order.BusinessLayer.Models.Dto;

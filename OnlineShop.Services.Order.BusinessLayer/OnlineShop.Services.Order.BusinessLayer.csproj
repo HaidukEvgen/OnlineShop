@@ -9,11 +9,13 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="FluentValidation" Version="11.8.0" />
+    <PackageReference Include="MassTransit" Version="8.1.3-develop.1632" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.Services.Order.DataLayer\OnlineShop.Services.Order.DataLayer.csproj" />
+    <ProjectReference Include="..\OnlineShop.Shared\OnlineShop.Shared.csproj" />
   </ItemGroup>
 
 </Project>
