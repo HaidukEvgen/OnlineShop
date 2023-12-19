@@ -9,12 +9,20 @@ namespace OnlineShop.Services.Order.Api.Controllers
 {
     [Route("api/orders")]
     [ApiController]
-    public class OrderController(IMediator mediator) : Controller
+    public class OrderController : Controller
     {
+        private readonly IMediator _mediator;
+
+        public OrderController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetOrdersAsync()
         {
-            var response = await mediator.Send(new GetOrdersQuery());
+            var query = new GetOrdersQuery();
+            var response = await _mediator.Send(query);
 
             return Ok(response);
         }
@@ -22,7 +30,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderByIdAsync(int id)
         {
-            var response = await mediator.Send(new GetOrderByIdQuery() { Id = id });
+            var query = new GetOrderByIdQuery { Id = id };
+            var response = await _mediator.Send(query);
 
             return Ok(response);
         }
@@ -30,7 +39,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetOrdersByUserAsync(string userId)
         {
-            var response = await mediator.Send(new GetOrdersByUserQuery() { UserId = userId });
+            var query = new GetOrdersByUserQuery { UserId = userId };
+            var response = await _mediator.Send(query);
 
             return Ok(response);
         }
@@ -38,7 +48,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpGet("status/{status}")]
         public async Task<IActionResult> GetOrdersByStatusAsync(OrderStatus status)
         {
-            var response = await mediator.Send(new GetOrdersByStatusQuery() { Status = status });
+            var query = new GetOrdersByStatusQuery { Status = status };
+            var response = await _mediator.Send(query);
 
             return Ok(response);
         }
@@ -46,7 +57,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrderAsync([FromBody] OrderCreateDto orderCreateDto)
         {
-            var response = await mediator.Send(new CreateOrderCommand() { OrderCreateDto = orderCreateDto });
+            var command = new CreateOrderCommand { OrderCreateDto = orderCreateDto };
+            var response = await _mediator.Send(command);
 
             return Ok(response);
         }
@@ -54,7 +66,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrderAsync(int id, [FromBody] OrderUpdateDto orderUpdateDto)
         {
-            var response = await mediator.Send(new UpdateOrderCommand() { Id = id, OrderUpdateDto = orderUpdateDto });
+            var command = new UpdateOrderCommand { Id = id, OrderUpdateDto = orderUpdateDto };
+            var response = await _mediator.Send(command);
 
             return Ok(response);
         }
@@ -62,7 +75,8 @@ namespace OnlineShop.Services.Order.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteOrderAsync(int id)
         {
-            var response = await mediator.Send(new DeleteOrderCommand() { Id = id });
+            var command = new DeleteOrderCommand { Id = id };
+            var response = await _mediator.Send(command);
 
             return Ok(response);
         }

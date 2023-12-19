@@ -7,11 +7,20 @@ using OnlineShop.Services.Order.DataLayer.Repositories.Interfaces;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 {
-    public class GetOrderByIdHandler(IOrderRepository orderRepository, IMapper mapper) : IRequestHandler<GetOrderByIdQuery, ResponseDto<OrderDto>>
+    public class GetOrderByIdHandler : IRequestHandler<GetOrderByIdQuery, ResponseDto<OrderDto>>
     {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        public GetOrderByIdHandler(IOrderRepository orderRepository, IMapper mapper)
+        {
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+
         public async Task<ResponseDto<OrderDto>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.GetOrderByIdAsync(request.Id);
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
 
             if (order is null)
             {
@@ -20,7 +29,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 
             return new ResponseDto<OrderDto>
             {
-                Result = mapper.Map<OrderDto>(order)
+                Result = _mapper.Map<OrderDto>(order)
             };
         }
     }

@@ -12,6 +12,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Mapper
             var orderCreateDto = mapper.Map<OrderCreateDto>(shoppingCart);
             mapper.Map(orderDetailsDto, orderCreateDto);
             orderCreateDto.UserId = userId;
+
             return orderCreateDto;
         }
     }

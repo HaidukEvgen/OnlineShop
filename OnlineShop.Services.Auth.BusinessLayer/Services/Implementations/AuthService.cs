@@ -48,7 +48,7 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
 
             if (user == null || isValid == false)
             {
-                throw new LoginException("Username or password is incorrect");
+                throw new LoginException(ExceptionMessages.LoginFailed);
             }
 
             var roles = await _userRepository.GetRolesAsync(user);
@@ -65,7 +65,7 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
             return new ResponseDto<LoginResponseDto> { Message = "User logged in successfuly", Result = loginResponseDto };
         }
 
-        public async Task<ResponseDto<object>> AssignRoleAsync(string name, string roleName, CancellationToken cancellationToken = default)
+        public async Task<ResponseDto> AssignRoleAsync(string name, string roleName, CancellationToken cancellationToken = default)
         {
             var user = await _userRepository.GetByNameAsync(name, cancellationToken);
             if (user != null)
@@ -78,11 +78,11 @@ namespace OnlineShop.Services.Auth.BusinessLayer.Services.Implementations
 
                 await _userRepository.AddToRoleAsync(user, roleName);
 
-                return new ResponseDto<object> { Message = "Role assigned successfuly" };
+                return new ResponseDto { Message = "Role assigned successfuly" };
             }
             else
             {
-                throw new AssignRoleException("Error while assigning a role");
+                throw new AssignRoleException(ExceptionMessages.ErrorAssigningRole);
             }
         }
     }

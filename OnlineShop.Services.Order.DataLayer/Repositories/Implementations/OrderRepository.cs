@@ -8,7 +8,7 @@ namespace OnlineShop.Services.Order.DataLayer.Repositories.Implementations
     public class OrderRepository(OrderContext context) : IOrderRepository
     {
 
-        public async Task<IEnumerable<OrderModel>> GetOrdersAsync() 
+        public async Task<IEnumerable<OrderModel>> GetOrdersAsync()
         {
             return await context.Orders.ToListAsync();
         }

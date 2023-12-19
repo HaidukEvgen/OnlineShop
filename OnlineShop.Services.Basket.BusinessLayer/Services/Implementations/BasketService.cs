@@ -48,14 +48,14 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             return new ResponseDto<BasketDto> { Result = result, Message = "Basket updated successfully" };
         }
 
-        public async Task<ResponseDto<object>> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default)
+        public async Task<ResponseDto> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default)
         {
             await _basketRepository.DeleteBasketAsync(userId, cancellationToken);
 
-            return new ResponseDto<object> { Message = "Basket deleted successfully" };
+            return new ResponseDto { Message = "Basket deleted successfully" };
         }
 
-        public async Task<ResponseDto<object>> CreateOrderAsync(string userId, OrderDetailsDto orderDetailsDto, CancellationToken cancellationToken = default)
+        public async Task<ResponseDto> CreateOrderAsync(string userId, OrderDetailsDto orderDetailsDto, CancellationToken cancellationToken = default)
         {
             var basket = await _basketRepository.GetBasketAsync(userId, cancellationToken);
 
@@ -82,7 +82,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
 
                 var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
 
-                return new ResponseDto<object> { Message = "Order created successfully.", Result = responseBody };
+                return new ResponseDto<string> { Message = "Order created successfully.", Result = responseBody };
             }
             else
             {

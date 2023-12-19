@@ -32,7 +32,7 @@ namespace OnlineShop.Services.Order.Api.Middleware
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
-                var responseObject = new ResponseDto<object>
+                var responseObject = new ResponseDto
                 {
                     IsSuccess = false,
                     Message = ex.Message,

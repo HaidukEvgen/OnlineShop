@@ -7,18 +7,27 @@ using OnlineShop.Services.Order.DataLayer.Repositories.Interfaces;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 {
-    public class CreateOrderHandler(IOrderRepository orderRepository, IMapper mapper) : IRequestHandler<CreateOrderCommand, ResponseDto<OrderDto>>
+    public class CreateOrderHandler : IRequestHandler<CreateOrderCommand, ResponseDto<OrderDto>>
     {
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        public CreateOrderHandler(IOrderRepository orderRepository, IMapper mapper)
+        {
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+
         public async Task<ResponseDto<OrderDto>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = mapper.Map<OrderModel>(request.OrderCreateDto);
+            var order = _mapper.Map<OrderModel>(request.OrderCreateDto);
 
-            await orderRepository.CreateOrderAsync(order);
+            await _orderRepository.CreateOrderAsync(order);
 
             return new ResponseDto<OrderDto>
             {
                 Message = "Successfully created.",
-                Result = mapper.Map<OrderDto>(order)
+                Result = _mapper.Map<OrderDto>(order)
             };
         }
     }

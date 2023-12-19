@@ -2,11 +2,8 @@
 {
     public static class ValidatorMessage
     {
-        public const string EmptyUserId = "User id must be specified.";
-        public const string EmptyProductIds = "Order must contain products.";
-        public const string TotalLessThanZero = "Total price of the order must not be less than 0.";
-        public const string EmptyPhoneNumber = "Phone number must be specified.";
-        public const string EmptyDeliveryAddress = "Address must be specified.";
-        public const string ActualDeliveryDateGreaterThanNow = "Actual delivery date must not be greater than current date.";
+        public const string PhoneOnlyDigits = "Phone number should consist only of digits.";
+        public const string PhoneLength = "Phone number should not exceed 15 digits.";
+        public const string ValidStatus = "Status must be 0, 1, 2, or 3";
     }
 }

@@ -7,20 +7,26 @@ using OnlineShop.Services.Order.DataLayer.Repositories.Interfaces;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 {
-    public class DeleteOrderHandler(IOrderRepository orderRepository) : IRequestHandler<DeleteOrderCommand, ResponseDto<object>>
+    public class DeleteOrderHandler : IRequestHandler<DeleteOrderCommand, ResponseDto>
     {
-        public async Task<ResponseDto<object>> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+        private readonly IOrderRepository _orderRepository;
+
+        public DeleteOrderHandler(IOrderRepository orderRepository, IMapper mapper)
         {
-            var order = await orderRepository.GetOrderByIdAsync(request.Id);
+            _orderRepository = orderRepository;
+        }
+        public async Task<ResponseDto> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
+        {
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
 
             if (order is null)
             {
                 throw new OrderNotFoundException(request.Id);
             }
 
-            await orderRepository.DeleteOrderAsync(order);
+            await _orderRepository.DeleteOrderAsync(order);
 
-            return new ResponseDto<object>
+            return new ResponseDto
             {
                 Message = "Successfully deleted."
             };

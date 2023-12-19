@@ -35,7 +35,7 @@ namespace OnlineShop.Services.Auth.Api.MiddlewareHandlers
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
-                var result = JsonSerializer.Serialize(new ResponseDto<object>() { IsSuccess = false, Message = error.Message });
+                var result = JsonSerializer.Serialize(new ResponseDto() { IsSuccess = false, Message = error.Message });
                 await response.WriteAsync(result);
             }
         }
