@@ -33,7 +33,7 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
 
         public async Task<string> AddAsync(Product product, CancellationToken cancellationToken)
         {
-            await _catalogContext.Products.InsertOneAsync(product, options: null, cancellationToken );
+            await _catalogContext.Products.InsertOneAsync(product, options: null, cancellationToken);
 
             return product.Id;
         }

@@ -1,0 +1,21 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "composeLaunchAction": "LaunchBrowser",
+      "composeLaunchServiceName": "onlineshop.services.order.api",
+      "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
+      "serviceActions": {
+        "onlineshop.services.basket.api": "StartWithoutDebugging",
+        "onlineshop.services.catalog.api": "StartWithoutDebugging",
+        "onlineshop.services.auth.api": "StartWithoutDebugging",
+        "mongodb": "StartWithoutDebugging",
+        "redis": "StartWithoutDebugging",
+        "sqlserver": "StartWithoutDebugging",
+        "onlineshop.services.order.api": "StartDebugging",
+        "rabbitmq": "StartWithoutDebugging"
+      }
+    }
+  }
+}
