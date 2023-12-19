@@ -14,6 +14,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\OnlineShop.Services.Auth.DataLayer\OnlineShop.Services.Auth.DataLayer.csproj" />
+    <ProjectReference Include="..\OnlineShop.Shared\OnlineShop.Shared.csproj" />
   </ItemGroup>  
 
 </Project>

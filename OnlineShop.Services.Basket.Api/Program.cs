@@ -7,6 +7,7 @@ builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureBusinessServices();
+builder.Services.ConfigureMassTransit(builder.Configuration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

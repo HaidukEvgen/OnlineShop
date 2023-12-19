@@ -41,6 +41,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Order.B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineShop.Services.Order.DataLayer", "OnlineShop.Services.Order.DataLayer\OnlineShop.Services.Order.DataLayer.csproj", "{F2A218DC-FBF2-4318-BED0-128BF07AF826}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{1B0AD844-F9B9-462D-BB59-039D49F217DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineShop.Shared", "OnlineShop.Shared\OnlineShop.Shared.csproj", "{1477660E-09CA-4037-858F-219BF0ECE85B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,10 @@ Global
 		{F2A218DC-FBF2-4318-BED0-128BF07AF826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2A218DC-FBF2-4318-BED0-128BF07AF826}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2A218DC-FBF2-4318-BED0-128BF07AF826}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1477660E-09CA-4037-858F-219BF0ECE85B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1477660E-09CA-4037-858F-219BF0ECE85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1477660E-09CA-4037-858F-219BF0ECE85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1477660E-09CA-4037-858F-219BF0ECE85B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,6 +133,7 @@ Global
 		{C8BC1D3C-B1F4-4127-B0BD-ED34D4E1288C} = {DD0D4BE2-5811-4638-8FA5-3765A2450B26}
 		{74BD0A0A-71A7-4553-8862-3FCA6E5DC4A3} = {DD0D4BE2-5811-4638-8FA5-3765A2450B26}
 		{F2A218DC-FBF2-4318-BED0-128BF07AF826} = {DD0D4BE2-5811-4638-8FA5-3765A2450B26}
+		{1477660E-09CA-4037-858F-219BF0ECE85B} = {1B0AD844-F9B9-462D-BB59-039D49F217DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {13B922CB-F014-47CA-BEAA-1F354DE3EFCB}

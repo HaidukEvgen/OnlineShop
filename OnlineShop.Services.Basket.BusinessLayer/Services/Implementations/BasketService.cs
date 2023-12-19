@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
+using MassTransit;
 using OnlineShop.Services.Basket.BusinessLayer.Exceptions;
 using OnlineShop.Services.Basket.BusinessLayer.Mapper;
 using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
@@ -13,11 +13,13 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
 
-        public BasketService(IBasketRepository basketRepository, IMapper mapper)
+        public BasketService(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
         {
             _basketRepository = basketRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
         }
 
         public async Task<ResponseDto<BasketDto>> GetBasketAsync(string userId, CancellationToken cancellationToken = default)
@@ -64,30 +66,13 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
                 throw new BasketNotFoundException(userId);
             }
 
-            var orderCreateDto = _mapper.MapToOrderCreateDto(basket, orderDetailsDto, userId);
+            var checkoutMessage = _mapper.MapToOrderCreatedMessage(basket, orderDetailsDto, userId);
 
-            //TODO: Replace this temporary synchronous communication with RabbitMQ message bus
-            var apiUrl = "http://onlineshop.services.order.api/api/orders";
+            await _publishEndpoint.Publish(checkoutMessage, cancellationToken);
 
-            using var httpClient = new HttpClient();
+            await DeleteBasketAsync(userId, cancellationToken);
 
-            var jsonContent = JsonConvert.SerializeObject(orderCreateDto);
-            var httpContent = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync(apiUrl, httpContent, cancellationToken);
-
-            if (response.IsSuccessStatusCode)
-            {
-                await DeleteBasketAsync(userId, cancellationToken);
-
-                var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-                return new ResponseDto<string> { Message = "Order created successfully.", Result = responseBody };
-            }
-            else
-            {
-                throw new OrderCreationException(response.StatusCode.ToString());
-            }
+            return new ResponseDto<object> { Message = "Order created successfully." };
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using FluentValidation;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Services.Order.Api.Middleware;
+using OnlineShop.Services.Order.BusinessLayer.Consumers;
 using OnlineShop.Services.Order.BusinessLayer.Infrastructure.Mapper;
 using OnlineShop.Services.Order.BusinessLayer.Infrastructure.Validators;
 using OnlineShop.Services.Order.DataLayer.AppData;
@@ -35,6 +37,21 @@ namespace OnlineShop.Services.Order.Api.Extensions
         {
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssembly(typeof(OrderCreateDtoValidator).Assembly);
+        }
+
+        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddMassTransit(x =>
+            {
+                x.AddConsumer<BasketCheckoutConsumer>();
+
+                x.SetKebabCaseEndpointNameFormatter();
+
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.ConfigureEndpoints(context);
+                });
+            });
         }
 
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
