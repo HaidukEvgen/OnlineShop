@@ -17,14 +17,14 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
         }
         public async Task<ResponseDto> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id, cancellationToken);
 
             if (order is null)
             {
                 throw new OrderNotFoundException(request.Id);
             }
 
-            await _orderRepository.DeleteOrderAsync(order);
+            await _orderRepository.DeleteOrderAsync(order, cancellationToken);
 
             return new ResponseDto
             {

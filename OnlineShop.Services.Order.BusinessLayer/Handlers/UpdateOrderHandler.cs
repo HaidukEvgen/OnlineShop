@@ -20,7 +20,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 
         public async Task<ResponseDto<OrderDto>> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id, cancellationToken);
 
             if (order is null)
             {
@@ -29,7 +29,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 
             _mapper.Map(request.OrderUpdateDto, order);
 
-            await _orderRepository.UpdateOrderAsync(order);
+            await _orderRepository.UpdateOrderAsync(order, cancellationToken);
 
             return new ResponseDto<OrderDto>
             {

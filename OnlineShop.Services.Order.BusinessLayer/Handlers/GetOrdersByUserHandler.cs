@@ -19,7 +19,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 
         public async Task<ResponseDto<IEnumerable<OrderDto>>> Handle(GetOrdersByUserQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _orderRepository.GetOrdersByUserAsync(request.UserId);
+            var orders = await _orderRepository.GetOrdersByUserAsync(request.UserId, cancellationToken);
 
             return new ResponseDto<IEnumerable<OrderDto>>
             {

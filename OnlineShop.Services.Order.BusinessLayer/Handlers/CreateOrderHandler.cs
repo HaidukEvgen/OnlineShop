@@ -22,7 +22,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
         {
             var order = _mapper.Map<OrderModel>(request.OrderCreateDto);
 
-            await _orderRepository.CreateOrderAsync(order);
+            await _orderRepository.CreateOrderAsync(order, cancellationToken);
 
             return new ResponseDto<OrderDto>
             {

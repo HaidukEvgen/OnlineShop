@@ -20,7 +20,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Handlers
 
         public async Task<ResponseDto<OrderDto>> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var order = await _orderRepository.GetOrderByIdAsync(request.Id);
+            var order = await _orderRepository.GetOrderByIdAsync(request.Id, cancellationToken);
 
             if (order is null)
             {
