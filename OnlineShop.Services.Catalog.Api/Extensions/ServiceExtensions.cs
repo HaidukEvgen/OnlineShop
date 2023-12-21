@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using OnlineShop.Services.Catalog.Api.MiddlewareHandlers;
 using OnlineShop.Services.Catalog.Application.Mapper;
 using OnlineShop.Services.Catalog.Application.Services.Implementations;
@@ -41,6 +42,26 @@ namespace OnlineShop.Services.Catalog.Api.Extensions
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<GlobalErrorHandler>();
+        }
+
+        public static void AddKestrelConfiguration(this IWebHostBuilder builder, IConfiguration config)
+        {
+            var password = config["Kestrel:Certificates:Development:Password"];
+
+            builder.ConfigureKestrel(options =>
+            {
+                options.ListenAnyIP(443, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                    listenOptions.UseHttps("/root/.aspnet/https/OnlineShop.Services.Catalog.Api.pfx", password);
+                });
+                options.ListenAnyIP(8001, listenOptions =>
+                {
+                    listenOptions.Protocols = HttpProtocols.Http2;
+                    listenOptions.UseHttps("/root/.aspnet/https/OnlineShop.Services.Catalog.Api.pfx", password);
+                });
+                options.ListenAnyIP(80, o => o.Protocols = HttpProtocols.Http1AndHttp2);
+            });
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Grpc.Core;
+﻿using Grpc.Core;
 using OnlineShop.Services.Catalog.Api.Protos;
 using OnlineShop.Services.Catalog.Application.Models.Dto;
 using OnlineShop.Services.Catalog.Application.Services.Interfaces;
@@ -23,7 +22,7 @@ namespace OnlineShop.Services.Catalog.Api.Services.gRPC
                 Id = item.ProductId
             }).ToList();
 
-            bool areValid =  await _catalogService.AreProductsValid(products);
+            bool areValid = await _catalogService.AreProductsValid(products);
 
             return new AreValidBasketItemsResponse { IsValid = areValid };
         }

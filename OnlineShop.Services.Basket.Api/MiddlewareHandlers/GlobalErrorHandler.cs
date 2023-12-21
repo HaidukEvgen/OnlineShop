@@ -30,6 +30,7 @@ namespace OnlineShop.Services.Basket.Api.MiddlewareHandlers
                     ValidationException => (int)HttpStatusCode.BadRequest,
                     BasketNotFoundException => (int)HttpStatusCode.NotFound,
                     FormatException => (int)HttpStatusCode.BadRequest,
+                    InvalidBasketException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 

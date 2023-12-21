@@ -4,6 +4,7 @@ using OnlineShop.Services.Catalog.Api.Services.gRPC;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.WebHost.AddKestrelConfiguration(builder.Configuration);
 builder.Services.AddGrpc();
 builder.Services.ConfigureBusinessServices();
 builder.Services.ConfigureDbOptions(builder.Configuration);

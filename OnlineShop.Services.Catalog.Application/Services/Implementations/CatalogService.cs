@@ -85,8 +85,16 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
         public async Task<bool> AreProductsValid(List<GrpcProductDto> products)
         {
             var productIds = products.Select(p => p.Id).ToList();
+            IEnumerable<Product> retrievedProducts;
 
-            var retrievedProducts = await _productRepository.GetProductsByIds(productIds);
+            try
+            {
+                retrievedProducts = await _productRepository.GetProductsByIds(productIds);
+            }
+            catch (FormatException)
+            {
+                return false;
+            }
 
             bool areValid = products.All(p =>
                 retrievedProducts.Any(rp =>
