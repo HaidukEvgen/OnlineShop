@@ -9,6 +9,7 @@ namespace OnlineShop.Services.Catalog.Application.Mapper
         public MappingProfile()
         {
             CreateMap<ProductDto, Product>().ReverseMap();
+
             CreateMap<NewProductDto, Product>();
         }
     }

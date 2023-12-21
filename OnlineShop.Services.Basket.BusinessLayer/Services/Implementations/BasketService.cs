@@ -6,6 +6,7 @@ using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces;
 using OnlineShop.Services.Basket.DataLayer.Models.Data;
 using OnlineShop.Services.Basket.DataLayer.Repositories.Interfaces;
+using static OnlineShop.Services.Basket.BusinessLayer.Protos.CatalogService;
 
 namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
 {
@@ -14,12 +15,18 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ICatalogServiceClient _catalogServiceClient;
 
-        public BasketService(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
+        public BasketService(
+            IBasketRepository basketRepository,
+            IMapper mapper,
+            IPublishEndpoint publishEndpoint,
+            ICatalogServiceClient catalogServiceClient)
         {
             _basketRepository = basketRepository;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
+            _catalogServiceClient = catalogServiceClient;
         }
 
         public async Task<ResponseDto<BasketDto>> GetBasketAsync(string userId, CancellationToken cancellationToken = default)
@@ -64,6 +71,15 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             if (basket is null)
             {
                 throw new BasketNotFoundException(userId);
+            }
+
+            var grpcProductDtos = _mapper.Map<IEnumerable<GrpcProductDto>>(basket.Items);
+
+            var areValid = await _catalogServiceClient.AreValidBasketItems(grpcProductDtos);
+            
+            if (!areValid)
+            {
+                throw new InvalidBasketException(userId);
             }
 
             var checkoutMessage = _mapper.MapToOrderCreatedMessage(basket, orderDetailsDto, userId);

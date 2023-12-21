@@ -62,5 +62,14 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
         {
             return Builders<Product>.Filter.Eq(new ExpressionFieldDefinition<Product, string>(field), value);
         }
+
+        public async Task<IEnumerable<Product>> GetProductsByIds(List<string> productIds, CancellationToken cancellationToken = default)
+        {
+            var filter = Builders<Product>.Filter.In(p => p.Id, productIds);
+
+            var products = await _catalogContext.Products.Find(filter).ToListAsync(cancellationToken);
+
+            return products;
+        }
     }
 }

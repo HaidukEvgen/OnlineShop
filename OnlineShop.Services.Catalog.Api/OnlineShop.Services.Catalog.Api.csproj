@@ -10,6 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.60.0-pre1" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.60.0-pre1" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
@@ -18,6 +21,10 @@
     <ProjectReference Include="..\OnlineShop.Services.Catalog.Application\OnlineShop.Services.Catalog.Application.csproj" />
     <ProjectReference Include="..\OnlineShop.Services.Catalog.Domain\OnlineShop.Services.Catalog.Domain.csproj" />
     <ProjectReference Include="..\OnlineShop.Services.Catalog.Infrastructure\OnlineShop.Services.Catalog.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\catalog.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>

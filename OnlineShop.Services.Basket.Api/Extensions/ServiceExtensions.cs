@@ -30,6 +30,7 @@ namespace OnlineShop.Services.Basket.Api.Extensions
         public static void ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<ICatalogServiceClient, CatalogServiceClient>();
             services.AddScoped<IBasketRepository, BasketRepository>();
         }
 
