@@ -1,5 +1,5 @@
 ﻿syntax = "proto3";
-option csharp_namespace = "OnlineShop.Services.Catalog.Api.Protos";
+option csharp_namespace = "OnlineShop.Services.Catalog.Application.Protos";
 package catalog;
 
 message BasketItem {

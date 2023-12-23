@@ -82,19 +82,11 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<bool> AreProductsValid(List<GrpcProductDto> products)
+        public async Task<bool> AreProductsValid(IEnumerable<GrpcProductDto> products)
         {
             var productIds = products.Select(p => p.Id).ToList();
-            IEnumerable<Product> retrievedProducts;
 
-            try
-            {
-                retrievedProducts = await _productRepository.GetProductsByIds(productIds);
-            }
-            catch (FormatException)
-            {
-                return false;
-            }
+            var retrievedProducts= await _productRepository.GetProductsByIds(productIds);
 
             bool areValid = products.All(p =>
                 retrievedProducts.Any(rp =>

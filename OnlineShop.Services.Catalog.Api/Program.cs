@@ -1,11 +1,17 @@
 using OnlineShop.Services.Catalog.Api.Extensions;
-using OnlineShop.Services.Catalog.Api.Services.gRPC;
+using OnlineShop.Services.Catalog.Api.MiddlewareHandlers;
+using OnlineShop.Services.Catalog.Application.Services.gRPC;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 builder.WebHost.AddKestrelConfiguration(builder.Configuration);
-builder.Services.AddGrpc();
+builder.Services.AddGrpc(options =>
+{
+    {
+        options.Interceptors.Add<GrpcErrorInterceptor>();
+    }
+});
 builder.Services.ConfigureBusinessServices();
 builder.Services.ConfigureDbOptions(builder.Configuration);
 builder.Services.AddControllers();

@@ -23,8 +23,4 @@
     <ProjectReference Include="..\OnlineShop.Services.Catalog.Infrastructure\OnlineShop.Services.Catalog.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Protobuf Include="Protos\catalog.proto" GrpcServices="Server" />
-  </ItemGroup>
-
 </Project>
