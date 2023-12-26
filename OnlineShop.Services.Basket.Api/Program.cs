@@ -4,6 +4,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.ConfigureReddis(builder.Configuration);
 builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
+builder.Services.ConfigureGrpcClient(builder.Configuration);
 builder.Services.ConfigureAutoMapper();
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureBusinessServices();

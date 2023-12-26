@@ -9,5 +9,6 @@ namespace OnlineShop.Services.Catalog.Application.Services.Interfaces
         Task<ResponseDto<string>> AddProductAsync(NewProductDto productDto, CancellationToken cancellationToken);
         Task<ResponseDto> UpdateProductAsync(string id, NewProductDto productDto, CancellationToken cancellationToken);
         Task<ResponseDto> DeleteProductAsync(string id, CancellationToken cancellationToken);
+        Task<bool> AreProductsValidAsync(IEnumerable<GrpcProductDto> products);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Grpc.Core;
 using OnlineShop.Services.Basket.BusinessLayer.Exceptions;
 using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
 using System.Net;
@@ -30,12 +31,24 @@ namespace OnlineShop.Services.Basket.Api.MiddlewareHandlers
                     ValidationException => (int)HttpStatusCode.BadRequest,
                     BasketNotFoundException => (int)HttpStatusCode.NotFound,
                     FormatException => (int)HttpStatusCode.BadRequest,
+                    InvalidBasketException => (int)HttpStatusCode.BadRequest,
+                    RpcException => GetStatusCodeForGrpcException((RpcException)error),
                     _ => (int)HttpStatusCode.InternalServerError,
                 };
 
                 var result = JsonSerializer.Serialize(new ResponseDto() { IsSuccess = false, Message = error.Message });
                 await response.WriteAsync(result);
             }
+        }
+
+        private int GetStatusCodeForGrpcException(RpcException rpcException)
+        {
+            return rpcException.StatusCode switch
+            {
+                StatusCode.InvalidArgument => (int)HttpStatusCode.BadRequest,
+                StatusCode.Unavailable => (int)HttpStatusCode.ServiceUnavailable,
+                _ => (int)HttpStatusCode.InternalServerError,
+            };
         }
     }
 }

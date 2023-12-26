@@ -14,12 +14,18 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
         private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ICatalogGrpcService _catalogGrpcService;
 
-        public BasketService(IBasketRepository basketRepository, IMapper mapper, IPublishEndpoint publishEndpoint)
+        public BasketService(
+            IBasketRepository basketRepository,
+            IMapper mapper,
+            IPublishEndpoint publishEndpoint,
+            ICatalogGrpcService catalogGrpcService)
         {
             _basketRepository = basketRepository;
             _mapper = mapper;
             _publishEndpoint = publishEndpoint;
+            _catalogGrpcService = catalogGrpcService;
         }
 
         public async Task<ResponseDto<BasketDto>> GetBasketAsync(string userId, CancellationToken cancellationToken = default)
@@ -64,6 +70,15 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             if (basket is null)
             {
                 throw new BasketNotFoundException(userId);
+            }
+
+            var grpcProductDtos = _mapper.Map<IEnumerable<GrpcProductDto>>(basket.Items);
+
+            var areValid = await _catalogGrpcService.AreValidBasketItemsAsync(grpcProductDtos);
+
+            if (!areValid)
+            {
+                throw new InvalidBasketException(userId);
             }
 
             var checkoutMessage = _mapper.MapToOrderCreatedMessage(basket, orderDetailsDto, userId);

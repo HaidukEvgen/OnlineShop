@@ -2,7 +2,6 @@
 using OnlineShop.Services.Order.DataLayer.AppData;
 using OnlineShop.Services.Order.DataLayer.Models;
 using OnlineShop.Services.Order.DataLayer.Repositories.Interfaces;
-using System.Threading;
 
 namespace OnlineShop.Services.Order.DataLayer.Repositories.Implementations
 {

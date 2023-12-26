@@ -1,0 +1,20 @@
+﻿syntax = "proto3";
+option csharp_namespace = "OnlineShop.Services.Catalog.Application.Protos";
+package catalog;
+
+message BasketItem {
+  int64 price_in_cents = 1;
+  string product_id = 2;
+}
+
+service CatalogService {
+  rpc AreValidBasketItems(AreValidBasketItemsRequest) returns (AreValidBasketItemsResponse) {}
+}
+
+message AreValidBasketItemsRequest {
+  repeated BasketItem items = 1;
+}
+
+message AreValidBasketItemsResponse {
+  bool is_valid = 1;
+}

@@ -2,6 +2,8 @@
 {
     public static class ExceptionMessages
     {
+        public const string InvalidBasket = "Basket consists of invalid items";
+
         public static string BasketNotFound(string id)
         {
             return $"Basket of user with id = {id} was not found in database";

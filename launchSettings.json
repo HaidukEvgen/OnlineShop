@@ -9,11 +9,11 @@
       "serviceActions": {
         "onlineshop.services.basket.api": "StartDebugging",
         "onlineshop.services.catalog.api": "StartDebugging",
-        "onlineshop.services.auth.api": "StartDebugging",
+        "onlineshop.services.auth.api": "DoNotStart",
         "mongodb": "StartWithoutDebugging",
         "redis": "StartWithoutDebugging",
-        "sqlserver": "StartWithoutDebugging",
-        "onlineshop.services.order.api": "StartDebugging",
+        "sqlserver": "DoNotStart",
+        "onlineshop.services.order.api": "DoNotStart",
         "rabbitmq": "StartWithoutDebugging"
       }
     }
