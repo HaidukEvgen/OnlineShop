@@ -21,7 +21,7 @@ namespace OnlineShop.Services.Catalog.Application.Services.gRPC
         {
             var products = _mapper.Map<IEnumerable<GrpcProductDto>>(request.Items);
 
-            bool areValid = await _catalogService.AreProductsValid(products);
+            bool areValid = await _catalogService.AreProductsValidAsync(products);
 
             return new AreValidBasketItemsResponse { IsValid = areValid };
         }

@@ -82,7 +82,7 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<bool> AreProductsValid(IEnumerable<GrpcProductDto> products)
+        public async Task<bool> AreProductsValidAsync(IEnumerable<GrpcProductDto> products)
         {
             var productIds = products.Select(p => p.Id).ToList();
 

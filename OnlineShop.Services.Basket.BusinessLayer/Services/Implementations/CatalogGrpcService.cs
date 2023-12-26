@@ -16,7 +16,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             _client = client;
         }
 
-        public async Task<bool> AreValidBasketItems(IEnumerable<GrpcProductDto> grpcProductDtos)
+        public async Task<bool> AreValidBasketItemsAsync(IEnumerable<GrpcProductDto> grpcProductDtos)
         {
             var request = _mapper.Map<AreValidBasketItemsRequest>(grpcProductDtos);
 

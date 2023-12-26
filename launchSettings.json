@@ -8,7 +8,7 @@
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
         "onlineshop.services.basket.api": "StartDebugging",
-        "onlineshop.services.catalog.api": "DoNotStart",
+        "onlineshop.services.catalog.api": "StartDebugging",
         "onlineshop.services.auth.api": "DoNotStart",
         "mongodb": "StartWithoutDebugging",
         "redis": "StartWithoutDebugging",

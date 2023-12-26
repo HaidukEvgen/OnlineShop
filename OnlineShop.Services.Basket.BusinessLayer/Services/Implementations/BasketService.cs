@@ -74,7 +74,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
 
             var grpcProductDtos = _mapper.Map<IEnumerable<GrpcProductDto>>(basket.Items);
 
-            var areValid = await _catalogGrpcService.AreValidBasketItems(grpcProductDtos);
+            var areValid = await _catalogGrpcService.AreValidBasketItemsAsync(grpcProductDtos);
 
             if (!areValid)
             {

@@ -4,6 +4,6 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces
 {
     public interface ICatalogGrpcService
     {
-        Task<bool> AreValidBasketItems(IEnumerable<GrpcProductDto> grpcProductDtos);
+        Task<bool> AreValidBasketItemsAsync(IEnumerable<GrpcProductDto> grpcProductDtos);
     }
 }
