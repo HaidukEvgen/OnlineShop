@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OnlineShop.Services.Order.DataLayer.AppData;
 
@@ -11,9 +12,11 @@ using OnlineShop.Services.Order.DataLayer.AppData;
 namespace OnlineShop.Services.Order.DataAccessLayer.Migrations
 {
     [DbContext(typeof(OrderContext))]
-    partial class OrderContextModelSnapshot : ModelSnapshot
+    [Migration("20231229134159_AddEmailToOrder")]
+    partial class AddEmailToOrder
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
