@@ -1,10 +1,14 @@
 ﻿using FluentValidation;
+using Hangfire;
+using HangfireBasicAuthenticationFilter;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using OnlineShop.Services.Order.Api.Middleware;
 using OnlineShop.Services.Order.BusinessLayer.Consumers;
 using OnlineShop.Services.Order.BusinessLayer.Infrastructure.Mapper;
 using OnlineShop.Services.Order.BusinessLayer.Infrastructure.Validators;
+using OnlineShop.Services.Order.BusinessLayer.Services.Implementations;
+using OnlineShop.Services.Order.BusinessLayer.Services.Interfaces;
 using OnlineShop.Services.Order.DataLayer.AppData;
 using OnlineShop.Services.Order.DataLayer.Repositories.Implementations;
 using OnlineShop.Services.Order.DataLayer.Repositories.Interfaces;
@@ -18,6 +22,12 @@ namespace OnlineShop.Services.Order.Api.Extensions
         {
             services.AddDbContext<OrderContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+        }
+
+        public static void ConfigureBusinessServices(this IServiceCollection services)
+        {
+            services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IHangfireService, HangfireService>();
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)
@@ -54,9 +64,30 @@ namespace OnlineShop.Services.Order.Api.Extensions
             });
         }
 
+        public static void ConfigureHangfire(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHangfire(x => x.UseSqlServerStorage(configuration.GetConnectionString("DefaultConnection")));
+            services.AddHangfireServer();
+        }
+
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<GlobalErrorHandler>();
+        }
+
+        public static void AppendHangfireDashboard(this IApplicationBuilder builder, IConfiguration configuration)
+        {
+            builder.UseHangfireDashboard("/hangfire", new DashboardOptions
+            {
+                Authorization = new[]
+                {
+                    new HangfireCustomBasicAuthenticationFilter
+                    {
+                        User = configuration.GetSection("HangfireOptions:User").Value,
+                        Pass = configuration.GetSection("HangfireOptions:Password").Value
+                    }
+                }
+            });
         }
 
         public static void ApplyMigrations(this IApplicationBuilder app, IServiceProvider services)
