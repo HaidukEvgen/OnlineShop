@@ -1,0 +1,193 @@
+{
+  "Routes": [
+    // Auth Microservice
+    {
+      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Auth_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "SwaggerKey": "auth",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Basket Microservice
+    {
+      "UpstreamPathTemplate": "/api/baskets",
+      "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Basket_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/baskets",
+      "SwaggerKey": "basket",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/baskets/{userId}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Basket_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/baskets/{userId}",
+      "SwaggerKey": "basket",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/baskets/{userId}/checkout",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Basket_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/baskets/{userId}/checkout",
+      "SwaggerKey": "basket",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Catalog Microservice
+    {
+      "UpstreamPathTemplate": "/api/products",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Catalog_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/products",
+      "SwaggerKey": "catalog",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/products/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Catalog_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/products/{id}",
+      "SwaggerKey": "catalog",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    // Order Microservice
+    {
+      "UpstreamPathTemplate": "/api/orders",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Order_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/orders",
+      "SwaggerKey": "order",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/orders/{id}",
+      "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Order_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/orders/{id}",
+      "SwaggerKey": "order",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/orders/user/{userId}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Order_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/orders/user/{userId}",
+      "SwaggerKey": "order",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    },
+    {
+      "UpstreamPathTemplate": "/api/orders/status/{status}",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "Order_service",
+          "Port": 443
+        }
+      ],
+      "DownstreamPathTemplate": "/api/orders/status/{status}",
+      "SwaggerKey": "order",
+      "DangerousAcceptAnyServerCertificateValidator": true
+    }
+  ],
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth",
+      "Config": [
+        {
+          "Name": "Auth API",
+          "Version": "v1",
+          "Url": "https://Auth_service:443/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "basket",
+      "Config": [
+        {
+          "Name": "Basket API",
+          "Version": "v1",
+          "Url": "https://Basket_service:443/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "catalog",
+      "Config": [
+        {
+          "Name": "Catalog API",
+          "Version": "v1",
+          "Url": "https://Catalog_service:443/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "order",
+      "Config": [
+        {
+          "Name": "Order API",
+          "Version": "v1",
+          "Url": "https://Order_service:443/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7000"
+  }
+}
