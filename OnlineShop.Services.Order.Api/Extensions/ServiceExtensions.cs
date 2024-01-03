@@ -27,6 +27,7 @@ namespace OnlineShop.Services.Order.Api.Extensions
         public static void ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IHangfireService, HangfireService>();
         }
 
         public static void ConfigureRepositories(this IServiceCollection services)

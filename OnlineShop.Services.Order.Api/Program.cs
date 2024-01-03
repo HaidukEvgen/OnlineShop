@@ -1,6 +1,8 @@
 using Hangfire;
 using HangfireBasicAuthenticationFilter;
+using Microsoft.Extensions.Configuration;
 using OnlineShop.Services.Order.Api.Extensions;
+using OnlineShop.Services.Order.BusinessLayer.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +19,7 @@ builder.Services.ConfigureMediatR();
 builder.Services.ConfigureFluentValidation();
 builder.Services.ConfigureMassTransit(builder.Configuration);
 builder.Services.ConfigureHangfire(builder.Configuration);
+builder.Services.Configure<EmailSetupOptions>(builder.Configuration.GetSection("EmailSetup"));
 
 var app = builder.Build();
 
