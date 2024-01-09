@@ -2,13 +2,13 @@
   "Routes": [
     // Auth Microservice
     {
-      "UpstreamPathTemplate": "/api/auth/{everything}",
+      "UpstreamPathTemplate": "/api/auth",
       "UpstreamHttpMethod": [ "Post" ],
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Auth_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7002
         }
       ],
       "DownstreamPathTemplate": "/api/auth/{everything}",
@@ -22,8 +22,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Basket_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7003
         }
       ],
       "DownstreamPathTemplate": "/api/baskets",
@@ -36,8 +36,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Basket_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7003
         }
       ],
       "DownstreamPathTemplate": "/api/baskets/{userId}",
@@ -50,8 +50,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Basket_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7003
         }
       ],
       "DownstreamPathTemplate": "/api/baskets/{userId}/checkout",
@@ -65,8 +65,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Catalog_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7001
         }
       ],
       "DownstreamPathTemplate": "/api/products",
@@ -79,8 +79,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Catalog_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7001
         }
       ],
       "DownstreamPathTemplate": "/api/products/{id}",
@@ -94,8 +94,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Order_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7004
         }
       ],
       "DownstreamPathTemplate": "/api/orders",
@@ -108,8 +108,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Order_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7004
         }
       ],
       "DownstreamPathTemplate": "/api/orders/{id}",
@@ -122,8 +122,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Order_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7004
         }
       ],
       "DownstreamPathTemplate": "/api/orders/user/{userId}",
@@ -136,8 +136,8 @@
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
-          "Host": "Order_service",
-          "Port": 443
+          "Host": "localhost",
+          "Port": 7004
         }
       ],
       "DownstreamPathTemplate": "/api/orders/status/{status}",
@@ -152,7 +152,7 @@
         {
           "Name": "Auth API",
           "Version": "v1",
-          "Url": "https://Auth_service:443/swagger/v1/swagger.json"
+          "Url": "https://localhost:7002/swagger/v1/swagger.json"
         }
       ]
     },
@@ -162,7 +162,7 @@
         {
           "Name": "Basket API",
           "Version": "v1",
-          "Url": "https://Basket_service:443/swagger/v1/swagger.json"
+          "Url": "https://localhost:7003/swagger/v1/swagger.json"
         }
       ]
     },
@@ -172,7 +172,7 @@
         {
           "Name": "Catalog API",
           "Version": "v1",
-          "Url": "https://Catalog_service:443/swagger/v1/swagger.json"
+          "Url": "https://localhost:7001/swagger/v1/swagger.json"
         }
       ]
     },
@@ -182,7 +182,7 @@
         {
           "Name": "Order API",
           "Version": "v1",
-          "Url": "https://Order_service:443/swagger/v1/swagger.json"
+          "Url": "https://localhost:7004/swagger/v1/swagger.json"
         }
       ]
     }
