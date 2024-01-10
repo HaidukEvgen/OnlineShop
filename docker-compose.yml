@@ -31,6 +31,13 @@ services:
       context: .
       dockerfile: OnlineShop.Services.Basket.Api\Dockerfile
 
+  onlineshop.apigateway.ocelot:
+    container_name: Gateway
+    image: ${DOCKER_REGISTRY-}onlineshopapigatewayocelot
+    build:
+      context: .
+      dockerfile: OnlineShop.ApiGateway.Ocelot/Dockerfile
+
   sqlserver: 
     container_name: SqlServer
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -46,3 +53,4 @@ services:
   rabbitmq:
     container_name: RabbitMQ
     image: rabbitmq:management
+

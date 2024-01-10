@@ -4,17 +4,18 @@
       "commandName": "DockerCompose",
       "commandVersion": "1.0",
       "composeLaunchAction": "LaunchBrowser",
-      "composeLaunchServiceName": "onlineshop.services.order.api",
+      "composeLaunchServiceName": "onlineshop.apigateway.ocelot",
       "composeLaunchUrl": "{Scheme}://localhost:{ServicePort}/swagger",
       "serviceActions": {
         "onlineshop.services.basket.api": "StartDebugging",
         "onlineshop.services.catalog.api": "StartDebugging",
-        "onlineshop.services.auth.api": "DoNotStart",
+        "onlineshop.services.auth.api": "StartDebugging",
         "mongodb": "StartWithoutDebugging",
         "redis": "StartWithoutDebugging",
-        "sqlserver": "StartWithoutDebugging",
+        "sqlserver": "DoNotStart",
         "onlineshop.services.order.api": "StartDebugging",
-        "rabbitmq": "StartWithoutDebugging"
+        "rabbitmq": "StartWithoutDebugging",
+        "onlineshop.apigateway.ocelot": "StartDebugging"
       }
     }
   }
