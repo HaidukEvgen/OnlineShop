@@ -11,7 +11,7 @@
           "Port": 7002
         }
       ],
-      "DownstreamPathTemplate": "/api/auth/{everything}",
+      "DownstreamPathTemplate": "/api/auth",
       "SwaggerKey": "auth",
       "DangerousAcceptAnyServerCertificateValidator": true
     },
