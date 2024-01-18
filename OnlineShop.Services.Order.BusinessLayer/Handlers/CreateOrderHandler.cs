@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Hangfire;
 using MediatR;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using OnlineShop.Services.Order.BusinessLayer.Commands;
 using OnlineShop.Services.Order.BusinessLayer.Models.Dto;
 using OnlineShop.Services.Order.BusinessLayer.Services.Interfaces;

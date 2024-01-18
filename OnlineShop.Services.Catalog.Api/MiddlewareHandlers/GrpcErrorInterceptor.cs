@@ -19,7 +19,7 @@ namespace OnlineShop.Services.Catalog.Api.MiddlewareHandlers
                 {
                     FormatException => StatusCode.InvalidArgument,
                     _ => StatusCode.Internal,
-                }; 
+                };
 
                 throw new RpcException(new Status(statusCode, exception.Message));
             }

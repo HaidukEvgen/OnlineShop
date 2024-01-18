@@ -86,7 +86,7 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
         {
             var productIds = products.Select(p => p.Id).ToList();
 
-            var retrievedProducts= await _productRepository.GetProductsByIds(productIds);
+            var retrievedProducts = await _productRepository.GetProductsByIds(productIds);
 
             bool areValid = products.All(p =>
                 retrievedProducts.Any(rp =>

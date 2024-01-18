@@ -17,7 +17,7 @@ namespace OnlineShop.Services.Order.BusinessLayer.Services.Implementations
 
         public void EnqueueEmailSendingJob(OrderModel order, CancellationToken cancellationToken)
         {
-            _backgroundJobClient.Enqueue(() => 
+            _backgroundJobClient.Enqueue(() =>
                 _emailService.SendEmailAsync(
                     order.Email,
                     EmailMessages.OrderCreatedEmailSubject,
@@ -32,8 +32,8 @@ namespace OnlineShop.Services.Order.BusinessLayer.Services.Implementations
 
             _backgroundJobClient.Schedule(() =>
                 _emailService.SendEmailAsync(
-                    order.Email, 
-                    EmailMessages.OrderDeliveryEmailSubject, 
+                    order.Email,
+                    EmailMessages.OrderDeliveryEmailSubject,
                     EmailMessages.OrderDeliveryEmailBody(order),
                     cancellationToken
                     ),

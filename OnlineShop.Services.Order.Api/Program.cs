@@ -1,6 +1,3 @@
-using Hangfire;
-using HangfireBasicAuthenticationFilter;
-using Microsoft.Extensions.Configuration;
 using OnlineShop.Services.Order.Api.Extensions;
 using OnlineShop.Services.Order.BusinessLayer.Settings;
 
