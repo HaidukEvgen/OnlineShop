@@ -95,7 +95,7 @@ namespace OnlineShop.Services.Auth.Tests.Services
         [Fact]
         public async Task AssignRoleAsync_WhenInputIsValid_ShouldReturnSuccess()
         {
-           
+
             var cancellationToken = CancellationToken.None;
             var role = _fakeData.GenerateFakeRoles()[0];
 
