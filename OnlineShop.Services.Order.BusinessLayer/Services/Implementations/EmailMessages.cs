@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using OnlineShop.Services.Order.DataLayer.Models;
+﻿using OnlineShop.Services.Order.DataLayer.Models;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Services.Implementations
 {

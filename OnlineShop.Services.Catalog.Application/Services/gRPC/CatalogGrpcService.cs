@@ -1,8 +1,8 @@
-﻿using Grpc.Core;
-using OnlineShop.Services.Catalog.Application.Protos;
+﻿using AutoMapper;
+using Grpc.Core;
 using OnlineShop.Services.Catalog.Application.Models.Dto;
+using OnlineShop.Services.Catalog.Application.Protos;
 using OnlineShop.Services.Catalog.Application.Services.Interfaces;
-using AutoMapper;
 
 namespace OnlineShop.Services.Catalog.Application.Services.gRPC
 {

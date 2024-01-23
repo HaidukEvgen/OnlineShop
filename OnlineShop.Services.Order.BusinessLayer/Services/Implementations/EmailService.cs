@@ -1,9 +1,9 @@
-﻿using OnlineShop.Services.Order.BusinessLayer.Services.Interfaces;
-using MimeKit;
-using MailKit.Net.Smtp;
+﻿using MailKit.Net.Smtp;
 using MailKit.Security;
-using OnlineShop.Services.Order.BusinessLayer.Settings;
 using Microsoft.Extensions.Options;
+using MimeKit;
+using OnlineShop.Services.Order.BusinessLayer.Services.Interfaces;
+using OnlineShop.Services.Order.BusinessLayer.Settings;
 
 namespace OnlineShop.Services.Order.BusinessLayer.Services.Implementations
 {
