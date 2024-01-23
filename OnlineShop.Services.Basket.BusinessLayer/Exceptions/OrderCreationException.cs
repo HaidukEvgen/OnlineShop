@@ -2,6 +2,6 @@
 {
     public class OrderCreationException : Exception
     {
-        public OrderCreationException(string statusCode) : base($"Error creating order. Status code: {statusCode}") { }
+        public OrderCreationException(string statusCode) : base(ExceptionMessages.OrderCreationFailed(statusCode)) { }
     }
 }

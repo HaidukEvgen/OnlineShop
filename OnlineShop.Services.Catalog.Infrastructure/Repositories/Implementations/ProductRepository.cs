@@ -33,7 +33,7 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
 
         public async Task<string> AddAsync(Product product, CancellationToken cancellationToken)
         {
-            await _catalogContext.Products.InsertOneAsync(product, options: null, cancellationToken );
+            await _catalogContext.Products.InsertOneAsync(product, options: null, cancellationToken);
 
             return product.Id;
         }
@@ -61,6 +61,15 @@ namespace OnlineShop.Services.Catalog.Infrastructure.Repositories.Implementation
         private FilterDefinition<Product> BuildEqualityFilter(Expression<Func<Product, string>> field, string value)
         {
             return Builders<Product>.Filter.Eq(new ExpressionFieldDefinition<Product, string>(field), value);
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByIds(List<string> productIds, CancellationToken cancellationToken = default)
+        {
+            var filter = Builders<Product>.Filter.In(p => p.Id, productIds);
+
+            var products = await _catalogContext.Products.Find(filter).ToListAsync(cancellationToken);
+
+            return products;
         }
     }
 }

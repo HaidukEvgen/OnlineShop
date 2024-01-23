@@ -51,7 +51,7 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             return response;
         }
 
-        public async Task<ResponseDto<object>> UpdateProductAsync(string id, NewProductDto productDto, CancellationToken cancellationToken)
+        public async Task<ResponseDto> UpdateProductAsync(string id, NewProductDto productDto, CancellationToken cancellationToken)
         {
             var existingProduct = await _productRepository.GetAsync(id, cancellationToken);
 
@@ -63,12 +63,12 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
             var product = _mapper.Map(productDto, existingProduct);
             await _productRepository.UpdateAsync(product, cancellationToken);
 
-            var response = new ResponseDto<object>() { Message = "Product updated successfully" };
+            var response = new ResponseDto() { Message = "Product updated successfully" };
 
             return response;
         }
 
-        public async Task<ResponseDto<object>> DeleteProductAsync(string id, CancellationToken cancellationToken)
+        public async Task<ResponseDto> DeleteProductAsync(string id, CancellationToken cancellationToken)
         {
             var isSuccess = await _productRepository.DeleteAsync(id, cancellationToken);
 
@@ -77,9 +77,24 @@ namespace OnlineShop.Services.Catalog.Application.Services.Implementations
                 throw new ProductNotFoundException(id);
             }
 
-            var response = new ResponseDto<object>() { Message = "Product deleted successfully" };
+            var response = new ResponseDto() { Message = "Product deleted successfully" };
 
             return response;
+        }
+
+        public async Task<bool> AreProductsValidAsync(IEnumerable<GrpcProductDto> products)
+        {
+            var productIds = products.Select(p => p.Id).ToList();
+
+            var retrievedProducts = await _productRepository.GetProductsByIds(productIds);
+
+            bool areValid = products.All(p =>
+                retrievedProducts.Any(rp =>
+                    rp.Id == p.Id && rp.Price == p.Price
+                )
+            );
+
+            return areValid;
         }
     }
 }

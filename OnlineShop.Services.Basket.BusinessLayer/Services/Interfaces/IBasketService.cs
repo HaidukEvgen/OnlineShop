@@ -6,7 +6,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces
     {
         Task<ResponseDto<BasketDto>> GetBasketAsync(string userId, CancellationToken cancellationToken = default);
         Task<ResponseDto<BasketDto>> UpdateBasketAsync(string userId, UpdateBasketDto basketDto, CancellationToken cancellationToken = default);
-        Task<ResponseDto<object>> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default);
-        Task<ResponseDto<object>> CreateOrderAsync(string userId, OrderDetailsDto orderCreateDto, CancellationToken cancellationToken = default);
+        Task<ResponseDto> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default);
+        Task<ResponseDto> CreateOrderAsync(string userId, OrderDetailsDto orderCreateDto, CancellationToken cancellationToken = default);
     }
 }

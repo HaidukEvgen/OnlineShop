@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using Newtonsoft.Json;
+using MassTransit;
 using OnlineShop.Services.Basket.BusinessLayer.Exceptions;
 using OnlineShop.Services.Basket.BusinessLayer.Mapper;
 using OnlineShop.Services.Basket.BusinessLayer.Models.Dto;
@@ -13,11 +13,19 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
     {
         private readonly IBasketRepository _basketRepository;
         private readonly IMapper _mapper;
+        private readonly IPublishEndpoint _publishEndpoint;
+        private readonly ICatalogGrpcService _catalogGrpcService;
 
-        public BasketService(IBasketRepository basketRepository, IMapper mapper)
+        public BasketService(
+            IBasketRepository basketRepository,
+            IMapper mapper,
+            IPublishEndpoint publishEndpoint,
+            ICatalogGrpcService catalogGrpcService)
         {
             _basketRepository = basketRepository;
             _mapper = mapper;
+            _publishEndpoint = publishEndpoint;
+            _catalogGrpcService = catalogGrpcService;
         }
 
         public async Task<ResponseDto<BasketDto>> GetBasketAsync(string userId, CancellationToken cancellationToken = default)
@@ -37,7 +45,7 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
 
         public async Task<ResponseDto<BasketDto>> UpdateBasketAsync(string userId, UpdateBasketDto basketDto, CancellationToken cancellationToken = default)
         {
-            
+
             var updatedBasket = _mapper.Map<ShoppingCart>(basketDto);
 
             updatedBasket = await _basketRepository.UpdateBasketAsync(userId, updatedBasket, cancellationToken);
@@ -48,14 +56,14 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
             return new ResponseDto<BasketDto> { Result = result, Message = "Basket updated successfully" };
         }
 
-        public async Task<ResponseDto<object>> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default)
+        public async Task<ResponseDto> DeleteBasketAsync(string userId, CancellationToken cancellationToken = default)
         {
             await _basketRepository.DeleteBasketAsync(userId, cancellationToken);
 
-            return new ResponseDto<object> { Message = "Basket deleted successfully" };
+            return new ResponseDto { Message = "Basket deleted successfully" };
         }
 
-        public async Task<ResponseDto<object>> CreateOrderAsync(string userId, OrderDetailsDto orderDetailsDto, CancellationToken cancellationToken = default)
+        public async Task<ResponseDto> CreateOrderAsync(string userId, OrderDetailsDto orderDetailsDto, CancellationToken cancellationToken = default)
         {
             var basket = await _basketRepository.GetBasketAsync(userId, cancellationToken);
 
@@ -64,30 +72,22 @@ namespace OnlineShop.Services.Basket.BusinessLayer.Services.Implementations
                 throw new BasketNotFoundException(userId);
             }
 
-            var orderCreateDto = _mapper.MapToOrderCreateDto(basket, orderDetailsDto, userId);
+            var grpcProductDtos = _mapper.Map<IEnumerable<GrpcProductDto>>(basket.Items);
 
-            //TODO: Replace this temporary synchronous communication with RabbitMQ message bus
-            var apiUrl = "https://localhost:7004/api/orders";
+            var areValid = await _catalogGrpcService.AreValidBasketItemsAsync(grpcProductDtos);
 
-            using var httpClient = new HttpClient();
-            
-            var jsonContent = JsonConvert.SerializeObject(orderCreateDto);
-            var httpContent = new StringContent(jsonContent, System.Text.Encoding.UTF8, "application/json");
-
-            var response = await httpClient.PostAsync(apiUrl, httpContent, cancellationToken);
-
-            if (response.IsSuccessStatusCode)
+            if (!areValid)
             {
-                await DeleteBasketAsync(userId, cancellationToken);
-
-                var responseBody = await response.Content.ReadAsStringAsync(cancellationToken);
-
-                return new ResponseDto<object> { Message = "Order created successfully.", Result = responseBody };
+                throw new InvalidBasketException(userId);
             }
-            else
-            {
-                throw new OrderCreationException(response.StatusCode.ToString());
-            }            
+
+            var checkoutMessage = _mapper.MapToOrderCreatedMessage(basket, orderDetailsDto, userId);
+
+            await _publishEndpoint.Publish(checkoutMessage, cancellationToken);
+
+            await DeleteBasketAsync(userId, cancellationToken);
+
+            return new ResponseDto<object> { Message = "Order created successfully." };
         }
     }
 }

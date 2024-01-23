@@ -2,6 +2,6 @@
 {
     public class ProductNotFoundException : Exception
     {
-        public ProductNotFoundException(string id) : base($"Product with id = {id} was not found in database") { }
+        public ProductNotFoundException(string id) : base(ExceptionMessages.ProductNotFound(id)) { }
     }
 }

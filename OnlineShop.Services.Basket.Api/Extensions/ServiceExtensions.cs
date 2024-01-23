@@ -1,12 +1,14 @@
-﻿using FluentValidation.AspNetCore;
-using FluentValidation;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MassTransit;
 using OnlineShop.Services.Basket.Api.MiddlewareHandlers;
 using OnlineShop.Services.Basket.BusinessLayer.Mapper;
+using OnlineShop.Services.Basket.BusinessLayer.Protos;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Implementations;
 using OnlineShop.Services.Basket.BusinessLayer.Services.Interfaces;
+using OnlineShop.Services.Basket.BusinessLayer.Validators;
 using OnlineShop.Services.Basket.DataLayer.Repositories.Implementations;
 using OnlineShop.Services.Basket.DataLayer.Repositories.Interfaces;
-using OnlineShop.Services.Basket.BusinessLayer.Validators;
 
 namespace OnlineShop.Services.Basket.Api.Extensions
 {
@@ -29,7 +31,21 @@ namespace OnlineShop.Services.Basket.Api.Extensions
         public static void ConfigureBusinessServices(this IServiceCollection services)
         {
             services.AddScoped<IBasketService, BasketService>();
+            services.AddScoped<ICatalogGrpcService, CatalogGrpcService>();
             services.AddScoped<IBasketRepository, BasketRepository>();
+        }
+
+        public static void ConfigureMassTransit(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddMassTransit(busConfigurator =>
+            {
+                busConfigurator.SetKebabCaseEndpointNameFormatter();
+
+                busConfigurator.UsingRabbitMq((busRegistrationContext, busConfigurator) =>
+                {
+                    busConfigurator.ConfigureEndpoints(busRegistrationContext);
+                });
+            });
         }
 
         public static void ConfigureAutoMapper(this IServiceCollection services)
@@ -40,6 +56,27 @@ namespace OnlineShop.Services.Basket.Api.Extensions
         public static void AppendGlobalErrorHandler(this IApplicationBuilder builder)
         {
             builder.UseMiddleware<GlobalErrorHandler>();
+        }
+
+        public static IServiceCollection ConfigureGrpcClient(this IServiceCollection services, ConfigurationManager configuration)
+        {
+            services
+                .AddGrpcClient<CatalogService.CatalogServiceClient>(o =>
+                {
+                    o.Address = new Uri(configuration["GrpcSettings:CatalogUrl"]);
+                })
+                .ConfigurePrimaryHttpMessageHandler(() =>
+                {
+                    var handler = new HttpClientHandler
+                    {
+                        ServerCertificateCustomValidationCallback =
+                            HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                    };
+
+                    return handler;
+                });
+
+            return services;
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public class BasketNotFoundException : Exception
     {
-        public BasketNotFoundException(string id) : base($"Basket of user with id = {id} was not found in database") { }
+        public BasketNotFoundException(string id) : base(ExceptionMessages.BasketNotFound(id)) { }
     }
 }

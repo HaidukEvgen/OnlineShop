@@ -3,19 +3,11 @@
     public class ShoppingCart
     {
         public List<ShoppingCartItem> Items { get; set; } = new List<ShoppingCartItem>();
-
         public decimal TotalPrice
         {
             get
             {
-                decimal totalprice = 0;
-                
-                foreach (var item in Items)
-                {
-                    totalprice += item.Price * item.Quantity;
-                }
-                
-                return totalprice;
+                return Items.Sum(item => item.Price * item.Quantity);
             }
         }
     }

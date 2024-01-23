@@ -2,6 +2,7 @@ version: '3.4'
 
 services:
   onlineshop.services.auth.api:
+    container_name: Auth_service
     image: ${DOCKER_REGISTRY-}onlineshopservicesauthapi
     build:
       context: .
@@ -10,16 +11,32 @@ services:
       - sqlserver
 
   onlineshop.services.catalog.api:
+    container_name: Catalog_service
     image: ${DOCKER_REGISTRY-}onlineshopservicescatalogapi
     build:
       context: .
       dockerfile: OnlineShop.Services.Catalog.Api\Dockerfile
 
+  onlineshop.services.order.api:
+    container_name: Order_service
+    image: ${DOCKER_REGISTRY-}onlineshopservicesorderapi
+    build:
+      context: .
+      dockerfile: OnlineShop.Services.Order.Api\Dockerfile
+
   onlineshop.services.basket.api:
+    container_name: Basket_service
     image: ${DOCKER_REGISTRY-}onlineshopservicesbasketapi
     build:
       context: .
       dockerfile: OnlineShop.Services.Basket.Api\Dockerfile
+
+  onlineshop.apigateway.ocelot:
+    container_name: Gateway
+    image: ${DOCKER_REGISTRY-}onlineshopapigatewayocelot
+    build:
+      context: .
+      dockerfile: OnlineShop.ApiGateway.Ocelot/Dockerfile
 
   sqlserver: 
     container_name: SqlServer
@@ -32,3 +49,8 @@ services:
   mongodb:
     container_name: Mongo
     image: mongo
+
+  rabbitmq:
+    container_name: RabbitMQ
+    image: rabbitmq:management
+
